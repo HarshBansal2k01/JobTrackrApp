@@ -16,11 +16,23 @@ import Register from "./components/Register";
 import { auth } from "./components/firebase.js";
 function App() {
   const [user, setUser] = useState();
+
+  const [loading, setLoading] = useState(true);
+
   useEffect(() => {
-    auth.onAuthStateChanged((user) => {
+    const unsubscribe = auth.onAuthStateChanged((user) => {
       setUser(user);
+      setLoading(false);
+      console.log("User status:", user);
     });
-  },[]);
+
+    // Cleanup subscription on unmount
+    return () => unsubscribe();
+  }, []);
+
+  if (loading) {
+    return <div>Loading...</div>; // Or some other loading indicator
+  }
   return (
     <Router>
       <div>
@@ -31,7 +43,7 @@ function App() {
               path="/"
               element={user ? <Navigate to="/dashboard" /> : <Login />}
             />
-            <Route path="/login" element={<Login />} />
+            <Route path="/login" element={user ? <Navigate to="/dashboard"/> : <Login />} />
             <Route path="/register" element={<Register />} />
             <Route
               path="/dashboard"

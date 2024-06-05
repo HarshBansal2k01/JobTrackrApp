@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { auth, db } from "./firebase";
 import { doc, getDoc } from "firebase/firestore";
 import { useNavigate } from "react-router-dom";
+import { toast } from "react-toastify";
 
 function Dashboard() {
   const navigate = useNavigate();
@@ -9,14 +10,22 @@ function Dashboard() {
 
   const fetchUserData = async () => {
     auth.onAuthStateChanged(async (user) => {
-      console.log(user);
-      const docRef = doc(db, "Users", user.uid);
-      const docSnap = await getDoc(docRef);
-      if (docSnap.exists()) {
-        setUserDetails(docSnap.data());
-        console.log(docSnap.data());
+      if (user) {
+        try {
+          const docRef = doc(db, "Users", user.uid);
+          const docSnap = await getDoc(docRef);
+          if (docSnap.exists()) {
+            setUserDetails(docSnap.data());
+            console.log(docSnap.data());
+          } else {
+            console.log("No user data found!");
+          }
+        } catch (error) {
+          console.error("Error fetching user data:", error);
+        }
       } else {
-        console.log("user not logged in");
+        console.log("User not logged in");
+        navigate("/login");
       }
     });
   };
@@ -28,8 +37,10 @@ function Dashboard() {
     try {
       await auth.signOut();
       navigate("/login");
+      toast.success("logged out");
       console.log("logged out");
     } catch (error) {
+      toast.error("error logging out", error.message);
       console.log("error logging out", error);
     }
   };
@@ -45,7 +56,11 @@ function Dashboard() {
           <h3>{userDetails.firstName}</h3>
           <div>
             <p>{userDetails.email}</p>
-            <p>{userDetails.lastName}</p>
+            <p>
+              {userDetails.lastName
+                ? userDetails.lastName
+                : userDetails.firstName.split(" ").pop()}
+            </p>
           </div>
         </>
       ) : (

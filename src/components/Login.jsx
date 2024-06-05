@@ -48,7 +48,7 @@ function Login() {
       toast.success("User logged in")
       console.log("logged in");
     } catch (error) {
-      toast.error("Login Error "+ error.message)
+      toast.error("Login Error "+ error)
       console.log(error);
     }
   };
