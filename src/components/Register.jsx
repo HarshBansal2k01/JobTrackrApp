@@ -16,6 +16,8 @@ import Typography from "@mui/material/Typography";
 import Container from "@mui/material/Container";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import { useNavigate } from "react-router-dom";
+import { toast } from 'react-toastify';
+import "react-toastify/dist/ReactToastify.css";
 
 function Copyright(props) {
   return (
@@ -41,7 +43,8 @@ function Register() {
   const [password, setPassword] = useState("");
   const [fname, setFname] = useState("");
   const [lname, setLname] = useState("");
-  const navigate = useNavigate()
+  const navigate = useNavigate();
+
   const handleRegister = async (e) => {
     e.preventDefault();
     try {
@@ -53,11 +56,15 @@ function Register() {
           email: user.email,
           firstName: fname,
           lastName: lname,
+          photo:""
         });
       }
-      navigate('/dashboard')
+      navigate("/dashboard");
+      toast.success("User registered successfully");
       console.log("user registered successfully");
     } catch (error) {
+      toast.error("Error registering user: " + error.message);
+
       console.log(error.message);
     }
   };
@@ -119,7 +126,6 @@ function Register() {
                   name="email"
                   autoComplete="email"
                   onChange={(e) => setEmail(e.target.value)}
-
                 />
               </Grid>
               <Grid item xs={12}>
@@ -153,7 +159,7 @@ function Register() {
             </Button>
             <Grid container justifyContent="flex-end">
               <Grid item>
-                <Link href="#" variant="body2">
+                <Link href="/login" variant="body2">
                   Already have an account? Sign in
                 </Link>
               </Grid>
@@ -163,51 +169,7 @@ function Register() {
         <Copyright sx={{ mt: 5 }} />
       </Container>
     </ThemeProvider>
-    // <div>
-    //   <form onSubmit={handleRegister}>
-    //     <h2>Register</h2>
-    //     <div>
-    //       <label>First Name</label>
-    //       <input
-    //         type="text"
-    //         placeholder="Enter First Name"
-    //         value={fname}
-    //         onChange={(e) => setFname(e.target.value)}
-    //       />
-    //     </div>
-    //     <div>
-    //       <label>Last Name</label>
-    //       <input
-    //         type="text"
-    //         placeholder="Enter Last Name"
-    //         value={lname}
-    //         onChange={(e) => setLname(e.target.value)}
-    //       />
-    //     </div>
-
-    //     <div>
-    //       <label>Email Address</label>
-    //       <input
-    //         type="email"
-    //         placeholder="Enter Email"
-    //         value={email}
-    //         onChange={(e) => setEmail(e.target.value)}
-    //       />
-    //     </div>
-    //     <div>
-    //       <label>Password</label>
-    //       <input
-    //         type="password"
-    //         placeholder="Enter Password"
-    //         value={password}
-    //         onChange={(e) => setPassword(e.target.value)}
-    //       />
-    //     </div>
-    //     <div>
-    //       <button type="submit">Submit</button>
-    //     </div>
-    //   </form>
-    // </div>
+   
   );
 }
 

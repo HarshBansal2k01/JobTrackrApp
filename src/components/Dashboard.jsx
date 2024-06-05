@@ -4,7 +4,7 @@ import { doc, getDoc } from "firebase/firestore";
 import { useNavigate } from "react-router-dom";
 
 function Dashboard() {
-  const navigate = useNavigate()
+  const navigate = useNavigate();
   const [userDetails, setUserDetails] = useState(null);
 
   const fetchUserData = async () => {
@@ -24,19 +24,24 @@ function Dashboard() {
     fetchUserData();
   }, []);
 
- const handleLogout = async ()=>{
-  try{
-    await auth.signOut();
-    navigate('/login')
-    console.log("logged out")
-  }catch(error){
-    console.log("error logging out",error)
-  }
- }
+  const handleLogout = async () => {
+    try {
+      await auth.signOut();
+      navigate("/login");
+      console.log("logged out");
+    } catch (error) {
+      console.log("error logging out", error);
+    }
+  };
   return (
     <div>
       {userDetails ? (
         <>
+          <img
+            src={userDetails.photo}
+            width={"40%"}
+            style={{ borderRadius: "50%" }}
+          />
           <h3>{userDetails.firstName}</h3>
           <div>
             <p>{userDetails.email}</p>

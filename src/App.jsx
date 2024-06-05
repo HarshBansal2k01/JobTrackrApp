@@ -3,6 +3,8 @@ import "./App.css";
 import React, { useEffect, useState } from "react";
 import Button from "@mui/material/Button";
 import Dashboard from "./components/Dashboard";
+import { ToastContainer } from "react-toastify";
+
 import {
   BrowserRouter as Router,
   Routes,
@@ -18,22 +20,24 @@ function App() {
     auth.onAuthStateChanged((user) => {
       setUser(user);
     });
-  });
+  },[]);
   return (
     <Router>
       <div>
+        <ToastContainer />
         <div>
-          <div>
-            <Routes>
-              <Route
-                path="/"
-                element={user ? <Navigate to="/dashboard" /> : <Login />}
-              />
-              <Route path="/login" element={<Login />} />
-              <Route path="/register" element={<Register />} />
-              <Route path="/dashboard" element={<Dashboard />} />
-            </Routes>
-          </div>
+          <Routes>
+            <Route
+              path="/"
+              element={user ? <Navigate to="/dashboard" /> : <Login />}
+            />
+            <Route path="/login" element={<Login />} />
+            <Route path="/register" element={<Register />} />
+            <Route
+              path="/dashboard"
+              element={user ? <Dashboard /> : <Navigate to="/login" />}
+            />
+          </Routes>
         </div>
       </div>
     </Router>

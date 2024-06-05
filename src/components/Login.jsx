@@ -15,6 +15,8 @@ import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
 import Typography from "@mui/material/Typography";
 import Container from "@mui/material/Container";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
+import LoginWithGoogle from "./LoginWithGoogle";
+import { toast } from "react-toastify";
 function Copyright(props) {
   return (
     <Typography
@@ -43,8 +45,10 @@ function Login() {
     try {
       await signInWithEmailAndPassword(auth, email, password);
       navigate("/dashboard");
+      toast.success("User logged in")
       console.log("logged in");
     } catch (error) {
+      toast.error("Login Error "+ error.message)
       console.log(error);
     }
   };
@@ -96,6 +100,7 @@ function Login() {
                 autoComplete="current-password"
                 onChange={(e) => setPassword(e.target.value)}
               />
+              <LoginWithGoogle />
               <FormControlLabel
                 control={<Checkbox value="remember" color="primary" />}
                 label="Remember me"
@@ -115,7 +120,7 @@ function Login() {
                   </Link>
                 </Grid>
                 <Grid item>
-                  <Link href="#" variant="body2">
+                  <Link href="/register" variant="body2">
                     {"Don't have an account? Sign Up"}
                   </Link>
                 </Grid>
@@ -125,33 +130,6 @@ function Login() {
           <Copyright sx={{ mt: 8, mb: 4 }} />
         </Container>
       </ThemeProvider>
-      {/* <div>
-        <form onSubmit={handleSubmit}>
-          <h2>Login</h2>
-          <div>
-            <label>Email Address</label>
-            <input
-              type="email"
-              placeholder="Enter Email"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-            />
-          </div>
-          <div>
-            <label>Password</label>
-            <input
-              type="password"
-              placeholder="Enter Password"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-            />
-          </div>
-
-          <div>
-            <button type="submit">Submit</button>
-          </div>
-        </form>
-      </div> */}
     </>
   );
 }
