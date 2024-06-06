@@ -1,0 +1,14 @@
+     {/* <img
+            src={userDetails.photo}
+            width={"40%"}
+            style={{ borderRadius: "50%" }}
+          />
+          <h3>{userDetails.firstName}</h3>
+          <div>
+            <p>{userDetails.email}</p>
+            <p>
+              {userDetails.lastName
+                ? userDetails.lastName
+                : userDetails.firstName.split(" ").pop()}
+            </p>
+          </div> */}

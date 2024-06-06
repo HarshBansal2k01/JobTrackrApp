@@ -14,6 +14,8 @@ import {
 import Login from "./components/Login";
 import Register from "./components/Register";
 import { auth } from "./components/firebase.js";
+import { ColorRing } from "react-loader-spinner";
+
 function App() {
   const [user, setUser] = useState();
 
@@ -26,12 +28,32 @@ function App() {
       console.log("User status:", user);
     });
 
-    // Cleanup subscription on unmount
     return () => unsubscribe();
   }, []);
 
   if (loading) {
-    return <div>Loading...</div>; // Or some other loading indicator
+    return (
+      <div
+        style={{
+          display: "flex",
+          justifyContent: "center",
+          alignItems: "center",
+          height: "100vh",
+        }}
+      >
+        {" "}
+        <ColorRing
+          visible={true}
+          height="80"
+          width="80"
+          ariaLabel="color-ring-loading"
+          wrapperStyle={{}}
+          wrapperClass="color-ring-wrapper"
+          colors={["#e15b64", "#f47e60", "#f8b26a", "#abbd81", "#849b87"]}
+        />
+        
+      </div>
+    );
   }
   return (
     <Router>
@@ -43,7 +65,10 @@ function App() {
               path="/"
               element={user ? <Navigate to="/dashboard" /> : <Login />}
             />
-            <Route path="/login" element={user ? <Navigate to="/dashboard"/> : <Login />} />
+            <Route
+              path="/login"
+              element={user ? <Navigate to="/dashboard" /> : <Login />}
+            />
             <Route path="/register" element={<Register />} />
             <Route
               path="/dashboard"
