@@ -4,6 +4,8 @@ import React, { useEffect, useState } from "react";
 import Button from "@mui/material/Button";
 import Dashboard from "./components/Dashboard";
 import { ToastContainer } from "react-toastify";
+import 'bootstrap/dist/css/bootstrap.min.css';
+
 
 import {
   BrowserRouter as Router,
