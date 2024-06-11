@@ -14,6 +14,7 @@ import Grid from "@mui/material/Grid";
 function Dashboard() {
   const navigate = useNavigate();
   const [userDetails, setUserDetails] = useState(null);
+  const [uid, setUid] = useState(null);
 
   const fetchUserData = async () => {
     auth.onAuthStateChanged(async (user) => {
@@ -24,6 +25,7 @@ function Dashboard() {
           if (docSnap.exists()) {
             setUserDetails(docSnap.data());
             console.log(docSnap.data());
+            setUid(user.uid);
           } else {
             console.log("No user data found!");
           }
@@ -52,13 +54,15 @@ function Dashboard() {
     }
   };
   return (
-    <div style={{ display: "flex", flexDirection: "column", minHeight: "100vh" }}>
-    {userDetails ? (
+    <div
+      style={{ display: "flex", flexDirection: "column", minHeight: "100vh" }}
+    >
+      {userDetails ? (
         <>
           <Navbar userDetails={userDetails} handleLogout={handleLogout} />
           <Grid container spacing={2}>
             <Grid item xs={6} md={4}>
-              <Applied />
+              <Applied user_id={uid} />
             </Grid>
             <Grid item xs={6} md={4}>
               <InProcess />
@@ -67,7 +71,6 @@ function Dashboard() {
               <Completed />
             </Grid>
           </Grid>
-
         </>
       ) : (
         <div
@@ -89,7 +92,7 @@ function Dashboard() {
           />
         </div>
       )}
-      <Footer/>
+      <Footer />
     </div>
   );
 }

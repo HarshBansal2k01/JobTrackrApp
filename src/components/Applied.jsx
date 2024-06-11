@@ -17,7 +17,7 @@ import AttachMoneyOutlinedIcon from "@mui/icons-material/AttachMoneyOutlined";
 import FormHelperText from "@mui/material/FormHelperText";
 import Select from "@mui/material/Select";
 import { Link } from "react-router-dom";
-
+import axios from "axios";
 const StatusDrop = [
   {
     value: "Applied",
@@ -29,14 +29,14 @@ const StatusDrop = [
     value: "Completed",
   },
 ];
-function Applied() {
+function Applied({user_id}) {
   const [companyName, setCompanyName] = useState("");
   const [role, setRole] = useState("");
   const [salaryRange, setSalaryRange] = useState("");
   const [status, setStatus] = useState("Applied");
   const [link, setLink] = useState("");
   const [isOpen, setIsOpen] = useState(false);
-  const [formData, setFormData] = useState([]);
+  const [dataForm, setDataForm] = useState([]);
 
   const handleCompanyNameChange = (event) => {
     setCompanyName(event.target.value);
@@ -59,6 +59,24 @@ function Applied() {
   };
 
   const handleSubmit = () => {
+    const formData = {
+      uid:user_id,
+      company_name: companyName,
+      role: role,
+      salary_range: salaryRange,
+      status: status,
+      link: link
+    };
+
+    axios.post('/AddJob',formData)
+    .then(res => {
+      console.log("Job added successfully", res);
+
+    })
+    .catch(err =>{
+      console.error("Error adding job", err)
+    })
+    /* 
     const newData = {
       companyName,
       role,
@@ -66,17 +84,18 @@ function Applied() {
       status,
       link,
     };
-    setFormData([...formData, newData]); // Append new data to array
-    setIsOpen(false); // Close the popup
+    setDataForm([...dataForm, newData]); */
+    setIsOpen(false); 
   };
-  useEffect(() => {
-    console.log(formData);
-  }, [formData]);
+  // useEffect(() => {
+  //   console.log(dataForm);
+  //   console.log(user_id);
+  // }, [dataForm]);
   return (
     <>
       <div style={{ textAlign: "center", padding: "5px" }}>
         <div style={{ marginTop: "5px" }}>
-          {formData.length > 0 ? (
+          {dataForm.length > 0 ? (
             <div
               style={{
                 display: "flex",
@@ -85,7 +104,7 @@ function Applied() {
                 flexDirection: "column",
               }}
             >
-              {formData.map((jobData) => (
+              {dataForm.map((jobData) => (
                 <Card
                   key={jobData.companyName}
                   style={{ width: "25rem", marginBottom: "1rem" }}
