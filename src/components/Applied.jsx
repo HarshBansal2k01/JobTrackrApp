@@ -18,6 +18,8 @@ import FormHelperText from "@mui/material/FormHelperText";
 import Select from "@mui/material/Select";
 import { Link } from "react-router-dom";
 import axios from "axios";
+import.meta.env.BACKEND_URL;
+
 const StatusDrop = [
   {
     value: "Applied",
@@ -29,11 +31,11 @@ const StatusDrop = [
     value: "Completed",
   },
 ];
-function Applied({user_id}) {
+function Applied({ user_id }) {
   const [companyName, setCompanyName] = useState("");
   const [role, setRole] = useState("");
   const [salaryRange, setSalaryRange] = useState("");
-  const [status, setStatus] = useState("Applied");
+  const [status, setStatus] = useState("");
   const [link, setLink] = useState("");
   const [isOpen, setIsOpen] = useState(false);
   const [dataForm, setDataForm] = useState([]);
@@ -60,22 +62,22 @@ function Applied({user_id}) {
 
   const handleSubmit = () => {
     const formData = {
-      uid:user_id,
+      uid: user_id,
       company_name: companyName,
       role: role,
       salary_range: salaryRange,
       status: status,
-      link: link
+      link: link,
     };
 
-    axios.post('/AddJob',formData)
-    .then(res => {
-      console.log("Job added successfully", res);
-
-    })
-    .catch(err =>{
-      console.error("Error adding job", err)
-    })
+    axios
+      .post("http://localhost:8080/AddJob", formData)
+      .then((res) => {
+        console.log("Job added successfully", res);
+      })
+      .catch((err) => {
+        console.error("Error adding job", err);
+      });
     /* 
     const newData = {
       companyName,
@@ -85,12 +87,24 @@ function Applied({user_id}) {
       link,
     };
     setDataForm([...dataForm, newData]); */
-    setIsOpen(false); 
+    setIsOpen(false);
   };
-  // useEffect(() => {
-  //   console.log(dataForm);
-  //   console.log(user_id);
-  // }, [dataForm]);
+
+  const fetchAllJobs = () => {
+    axios
+      .get("http://localhost:8080/getjobs")
+      .then((response) => {
+        setDataForm(response.data);
+      })
+      .catch((error) => {
+        console.log("error fetching", error);
+      });
+  };
+
+  useEffect(() => {
+    fetchAllJobs();
+    console.log("fetched data ->", dataForm);
+  }, []);
   return (
     <>
       <div style={{ textAlign: "center", padding: "5px" }}>
@@ -106,7 +120,7 @@ function Applied({user_id}) {
             >
               {dataForm.map((jobData) => (
                 <Card
-                  key={jobData.companyName}
+                  key={jobData._id}
                   style={{ width: "25rem", marginBottom: "1rem" }}
                 >
                   <Card.Body>
@@ -121,7 +135,7 @@ function Applied({user_id}) {
                       }}
                     >
                       <BusinessIcon style={{ fontSize: 30, marginRight: 10 }} />{" "}
-                      {jobData.companyName}
+                      {jobData.company_name}
                     </Card.Title>
 
                     <Card.Title
@@ -155,7 +169,7 @@ function Applied({user_id}) {
                       <AttachMoneyOutlinedIcon
                         style={{ fontSize: 30, marginRight: 10 }}
                       />
-                      {jobData.salaryRange}
+                      {jobData.salary_range}
                     </Card.Title>
                     <div style={{ display: "flex", alignItems: "center" }}>
                       <div style={{ flex: 1 }}>
@@ -168,7 +182,7 @@ function Applied({user_id}) {
                               height: "50px",
                               width: "80%",
                               justifyContent: "flex-start",
-                              marginBottom:"19px"
+                              marginBottom: "19px",
                             }}
                           >
                             <Link
@@ -178,7 +192,6 @@ function Applied({user_id}) {
                               <InputAdornment position="start">
                                 <InsertLinkIcon />
                               </InputAdornment>
-                              
                             </Link>
                             Company
                           </Button>
@@ -186,21 +199,24 @@ function Applied({user_id}) {
                       </div>
                       <div style={{ flex: 1 }}>
                         <FormControl sx={{ m: 1 }}>
-                          <InputLabel id="demo-simple-select-helper-label">
+                          <InputLabel >
                             Status
                           </InputLabel>
                           <Select
                             labelId="demo-simple-select-helper-label"
-                            id="demo-simple-select-helper"
+                            id={jobData._id}
                             value={jobData.status}
                             label="Status"
                             style={{ width: "100%" }} // Make the select take full width
+                            onChange={(e) =>
+                              handleStatusChange(e.target.value)
+                            }
                           >
-                            {StatusDrop.map((status, index) => (
-                              <MenuItem key={index} value={status.value}>
-                                {status.value}
-                              </MenuItem>
-                            ))}
+                            <MenuItem value="Applied">Applied</MenuItem>
+                            <MenuItem value="InProcess">
+                              InProcess
+                            </MenuItem>
+                            <MenuItem value="Completed">Completed</MenuItem>
                           </Select>
                           <FormHelperText>Change Status</FormHelperText>
                         </FormControl>
@@ -214,7 +230,7 @@ function Applied({user_id}) {
             <div>No data available</div>
           )}
         </div>
-        <div style={{ marginTop: "10px" , marginBottom:"10px" }}>
+        <div style={{ marginTop: "10px", marginBottom: "10px" }}>
           <Button variant="contained" onClick={() => setIsOpen(true)}>
             {" "}
             Add Job{" "}
