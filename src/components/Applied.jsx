@@ -35,11 +35,11 @@ function Applied({ user_id }) {
   const [companyName, setCompanyName] = useState("");
   const [role, setRole] = useState("");
   const [salaryRange, setSalaryRange] = useState("");
-  const [status, setStatus] = useState("");
+  // const [status, setStatus] = useState("");
   const [link, setLink] = useState("");
   const [isOpen, setIsOpen] = useState(false);
   const [dataForm, setDataForm] = useState([]);
-
+  const [selectStatus, setSelectStatus] = useState("Applied");
   const handleCompanyNameChange = (event) => {
     setCompanyName(event.target.value);
   };
@@ -52,28 +52,56 @@ function Applied({ user_id }) {
     setSalaryRange(event.target.value);
   };
 
-  const handleStatusChange = (event) => {
-    setStatus(event.target.value);
+  const handleSelectStatus = (e) => {
+    setSelectStatus(e.target.value);
+    console.log(e.target.value);
+  };
+
+  const handleStatusChange = (id, event) => {
+    // setStatus(event);
+    handleStatusUpdate(id, { status: event });
+    const updatedStatus = dataForm.map((status) => {
+      if (status._id === id) {
+        return { ...status, status: event }; // Update the status of the specific job
+      }
+      return status;
+    });
+    setDataForm(updatedStatus);
+  };
+  const handleStatusUpdate = (jobId, status) => {
+    axios
+      .put(`http://localhost:8080/updatejob/${jobId} `, status)
+      .then((res) => {
+        // setStatus(status);
+        console.log("Status Updated Successfully", res);
+      })
+      .catch((err) => {
+        console.log("Error updating status", err);
+      });
   };
 
   const handleLinkChange = (event) => {
     setLink(event.target.value);
   };
 
-  const handleSubmit = () => {
+  const handleSubmit = (e) => {
+    e.preventDefault()
     const formData = {
       uid: user_id,
       company_name: companyName,
       role: role,
       salary_range: salaryRange,
-      status: status,
+      status: selectStatus,
       link: link,
     };
+
+    console.log(formData);
 
     axios
       .post("http://localhost:8080/AddJob", formData)
       .then((res) => {
         console.log("Job added successfully", res);
+        fetchAllJobs();
       })
       .catch((err) => {
         console.error("Error adding job", err);
@@ -103,7 +131,6 @@ function Applied({ user_id }) {
 
   useEffect(() => {
     fetchAllJobs();
-    console.log("fetched data ->", dataForm);
   }, []);
   return (
     <>
@@ -199,23 +226,19 @@ function Applied({ user_id }) {
                       </div>
                       <div style={{ flex: 1 }}>
                         <FormControl sx={{ m: 1 }}>
-                          <InputLabel >
-                            Status
-                          </InputLabel>
+                          <InputLabel>Status</InputLabel>
                           <Select
                             labelId="demo-simple-select-helper-label"
                             id={jobData._id}
                             value={jobData.status}
                             label="Status"
-                            style={{ width: "100%" }} // Make the select take full width
+                            style={{ width: "100%" }}
                             onChange={(e) =>
-                              handleStatusChange(e.target.value)
+                              handleStatusChange(jobData._id, e.target.value)
                             }
                           >
                             <MenuItem value="Applied">Applied</MenuItem>
-                            <MenuItem value="InProcess">
-                              InProcess
-                            </MenuItem>
+                            <MenuItem value="InProcess">InProcess</MenuItem>
                             <MenuItem value="Completed">Completed</MenuItem>
                           </Select>
                           <FormHelperText>Change Status</FormHelperText>
@@ -230,89 +253,95 @@ function Applied({ user_id }) {
             <div>No data available</div>
           )}
         </div>
-        <div style={{ marginTop: "10px", marginBottom: "10px" }}>
-          <Button variant="contained" onClick={() => setIsOpen(true)}>
-            {" "}
-            Add Job{" "}
-          </Button>
+        <form action="" onSubmit={handleSubmit}>
+          <div style={{ marginTop: "10px", marginBottom: "10px" }}>
+            <Button variant="contained" onClick={() => setIsOpen(true)}>
+              {" "}
+              Add Job{" "}
+            </Button>
 
-          <Popup open={isOpen} onClose={() => setIsOpen(false)} modal nested>
-            <Box
-              component="form"
-              sx={{
-                "& > :not(style)": { m: 1 },
-              }}
-              noValidate
-              autoComplete="off"
-              padding={3}
-            >
-              <FormControl>
-                <InputLabel htmlFor="component-outlined">
-                  Company Name
-                </InputLabel>
-                <OutlinedInput
-                  id="component-outlined"
-                  label="Company Name"
-                  onChange={handleCompanyNameChange}
-                />
-              </FormControl>
-              <FormControl>
-                <InputLabel htmlFor="component-outlined">
-                  Role Applied For
-                </InputLabel>
-                <OutlinedInput
-                  id="component-outlined"
-                  label="Role Applied For"
-                  onChange={handleRoleChange}
-                />
-              </FormControl>
-              <FormControl>
-                <InputLabel htmlFor="component-outlined">
-                  Salary Range
-                </InputLabel>
-                <OutlinedInput
-                  id="component-outlined"
-                  label="Salary Range"
-                  onChange={handleSalaryRangeChange}
-                />
-              </FormControl>
-              <TextField
-                id="outlined-select-currency"
-                select
-                label="Select"
-                defaultValue="Applied"
-                onChange={handleStatusChange}
-                helperText="Please select your Status"
-              >
-                {StatusDrop.map((option) => (
-                  <MenuItem key={option.value} value={option.value}>
-                    {option.value}
-                  </MenuItem>
-                ))}
-              </TextField>
-              <TextField
-                id="outlined-select-currency"
-                label="Link"
-                helperText="Insert Link "
-                onChange={handleLinkChange}
-                InputProps={{
-                  startAdornment: (
-                    <InputAdornment position="start">
-                      <InsertLinkIcon />
-                    </InputAdornment>
-                  ),
+            <Popup open={isOpen} onClose={() => setIsOpen(false)} modal nested>
+              <Box
+                component="form"
+                sx={{
+                  "& > :not(style)": { m: 1 },
                 }}
-              />
-              <Button
-                style={{ position: "absolute", right: "10px", bottom: "10px" }}
-                variant="contained"
-                onClick={handleSubmit}
+                noValidate
+                autoComplete="off"
+                padding={3}
               >
-                Submit
-              </Button>
-            </Box>
-          </Popup>
-        </div>
+                <FormControl>
+                  <InputLabel htmlFor="component-outlined">
+                    Company Name
+                  </InputLabel>
+                  <OutlinedInput
+                    id="component-outlined"
+                    label="Company Name"
+                    onChange={handleCompanyNameChange}
+                  />
+                </FormControl>
+                <FormControl>
+                  <InputLabel htmlFor="component-outlined">
+                    Role Applied For
+                  </InputLabel>
+                  <OutlinedInput
+                    id="component-outlined"
+                    label="Role Applied For"
+                    onChange={handleRoleChange}
+                  />
+                </FormControl>
+                <FormControl>
+                  <InputLabel htmlFor="component-outlined">
+                    Salary Range
+                  </InputLabel>
+                  <OutlinedInput
+                    id="component-outlined"
+                    label="Salary Range"
+                    onChange={handleSalaryRangeChange}
+                  />
+                </FormControl>
+                <TextField
+                  id="outlined-select-currency"
+                  select
+                  label="Select"
+                  defaultValue="Applied"
+                  onChange={handleSelectStatus}
+                  helperText="Please select your Status"
+                >
+                  {StatusDrop.map((option) => (
+                    <MenuItem key={option.value} value={option.value}>
+                      {option.value}
+                    </MenuItem>
+                  ))}
+                </TextField>
+                <TextField
+                  id="outlined-select-currency"
+                  label="Link"
+                  helperText="Insert Link "
+                  onChange={handleLinkChange}
+                  InputProps={{
+                    startAdornment: (
+                      <InputAdornment position="start">
+                        <InsertLinkIcon />
+                      </InputAdornment>
+                    ),
+                  }}
+                />
+                <Button
+                  style={{
+                    position: "absolute",
+                    right: "10px",
+                    bottom: "10px",
+                  }}
+                  variant="contained"
+                  type="submit"
+                >
+                  Submit
+                </Button>
+              </Box>
+            </Popup>
+          </div>
+        </form>
       </div>
     </>
   );
