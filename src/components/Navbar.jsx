@@ -12,9 +12,10 @@ import Button from "@mui/material/Button";
 import Tooltip from "@mui/material/Tooltip";
 import MenuItem from "@mui/material/MenuItem";
 import AdbIcon from "@mui/icons-material/Adb";
+import { Link } from "react-router-dom";
 
 const pages = ["About", "Contact", "Donate $"];
-const settings = ["Profile","Dashboard", "Logout"];
+const settings = ["Profile", "Dashboard", "Logout"];
 
 function Navbar({ userDetails, handleLogout }) {
   const [anchorElNav, setAnchorElNav] = React.useState(null);
@@ -36,7 +37,7 @@ function Navbar({ userDetails, handleLogout }) {
   };
 
   return (
-    <AppBar position="static" >
+    <AppBar position="static">
       <Container maxWidth="xl">
         <Toolbar disableGutters>
           <AdbIcon sx={{ display: { xs: "none", md: "flex" }, mr: 1 }} />
@@ -89,7 +90,14 @@ function Navbar({ userDetails, handleLogout }) {
             >
               {pages.map((page) => (
                 <MenuItem key={page} onClick={handleCloseNavMenu}>
-                  <Typography textAlign="center">{page}</Typography>
+                  <Link
+                    to={`/${page.toLowerCase()}`}
+                    style={{ textDecoration: "none", color: "inherit" }}
+                  >
+                    <Typography variant="body1" textAlign="center">
+                      {page}
+                    </Typography>
+                  </Link>
                 </MenuItem>
               ))}
             </Menu>

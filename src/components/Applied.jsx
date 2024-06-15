@@ -18,6 +18,7 @@ import FormHelperText from "@mui/material/FormHelperText";
 import Select from "@mui/material/Select";
 import { Link } from "react-router-dom";
 import axios from "axios";
+import { toast } from "react-toastify";
 import.meta.env.BACKEND_URL;
 
 const StatusDrop = [
@@ -31,15 +32,23 @@ const StatusDrop = [
     value: "Completed",
   },
 ];
-function Applied({ user_id }) {
+function Applied({ user_id, jobs, updateJobStatus, fetchAllJobs }) {
   const [companyName, setCompanyName] = useState("");
   const [role, setRole] = useState("");
   const [salaryRange, setSalaryRange] = useState("");
-  // const [status, setStatus] = useState("");
   const [link, setLink] = useState("");
   const [isOpen, setIsOpen] = useState(false);
   const [dataForm, setDataForm] = useState([]);
   const [selectStatus, setSelectStatus] = useState("Applied");
+  const [errors, setErrors] = useState({});
+  const [formValues, setFormValues] = useState({
+    uid: "",
+    company_name: "",
+    role: "",
+    salary_range: "",
+    status: "Applied",
+    link: "",
+  });
   const handleCompanyNameChange = (event) => {
     setCompanyName(event.target.value);
   };
@@ -58,34 +67,39 @@ function Applied({ user_id }) {
   };
 
   const handleStatusChange = (id, event) => {
-    // setStatus(event);
-    handleStatusUpdate(id, { status: event });
-    const updatedStatus = dataForm.map((status) => {
-      if (status._id === id) {
-        return { ...status, status: event }; // Update the status of the specific job
-      }
-      return status;
-    });
-    setDataForm(updatedStatus);
+    console.log(event);
+    // handleStatusUpdate(id, { status: event });
+    // const updatedStatus = dataForm.map((status) => {
+    //   if (status._id === id) {
+
+    //     return { ...status, status: event };
+    //   }
+    //   return status;
+    // });
+    // setDataForm(updatedStatus);
+    updateJobStatus(id, event);
   };
-  const handleStatusUpdate = (jobId, status) => {
-    axios
-      .put(`http://localhost:8080/updatejob/${jobId} `, status)
-      .then((res) => {
-        // setStatus(status);
-        console.log("Status Updated Successfully", res);
-      })
-      .catch((err) => {
-        console.log("Error updating status", err);
-      });
-  };
+  // const handleStatusUpdate = (jobId, status) => {
+  //   axios
+  //     .put(`http://localhost:8080/updatejob/${jobId} `, status)
+  //     .then((res) => {
+  //       // setStatus(status);
+  //       console.log("Status Updated Successfully", res);
+  //       updateJobStatus(jobId, status.status);
+  //       toast.success(`Status Updated Successfully to ${status.status}`);
+  //     })
+  //     .catch((err) => {
+  //       console.log("Error updating status", err);
+  //       toast.error(`Error Updating Status ${err.message}`);
+  //     });
+  // };
 
   const handleLinkChange = (event) => {
     setLink(event.target.value);
   };
 
   const handleSubmit = (e) => {
-    e.preventDefault()
+    e.preventDefault();
     const formData = {
       uid: user_id,
       company_name: companyName,
@@ -94,49 +108,54 @@ function Applied({ user_id }) {
       status: selectStatus,
       link: link,
     };
-
-    console.log(formData);
-
-    axios
-      .post("http://localhost:8080/AddJob", formData)
-      .then((res) => {
-        console.log("Job added successfully", res);
-        fetchAllJobs();
-      })
-      .catch((err) => {
-        console.error("Error adding job", err);
-      });
-    /* 
-    const newData = {
-      companyName,
-      role,
-      salaryRange,
-      status,
-      link,
-    };
-    setDataForm([...dataForm, newData]); */
-    setIsOpen(false);
+    const isFormValid = Object.values(formData).every(
+      (value) => value !== null && value !== ""
+    );
+    if (!isFormValid) {
+      toast.error("Please fill in all the fields");
+      return;
+    } else if (isFormValid) {
+      setFormValues(formData);
+      axios
+        .post("http://localhost:8080/AddJob", formData)
+        .then((res) => {
+          console.log("Job added successfully", res);
+          toast.success("Job added successfully");
+          fetchAllJobs();
+        })
+        .catch((err) => {
+          console.error("Error adding job", err);
+          toast.error(`Error adding job ${err.message}`);
+        });
+      setIsOpen(false);
+      setCompanyName("");
+      setRole("");
+      setSalaryRange("");
+      setSelectStatus("");
+      setLink("");
+    }
   };
 
-  const fetchAllJobs = () => {
-    axios
-      .get("http://localhost:8080/getjobs")
-      .then((response) => {
-        setDataForm(response.data);
-      })
-      .catch((error) => {
-        console.log("error fetching", error);
-      });
-  };
+  // const fetchAllJobs = () => {
+  //   axios
+  //     .get("http://localhost:8080/getjobs")
+  //     .then((response) => {
+  //       setDataForm(response.data);
+  //     })
+  //     .catch((error) => {
+  //       console.log("error fetching", error);
+  //       toast.error("error fetching", error.message);
+  //     });
+  // };
 
-  useEffect(() => {
-    fetchAllJobs();
-  }, []);
+  // useEffect(() => {
+  //   fetchAllJobs();
+  // }, []);
   return (
     <>
       <div style={{ textAlign: "center", padding: "5px" }}>
         <div style={{ marginTop: "5px" }}>
-          {dataForm.length > 0 ? (
+          {jobs.length > 0 ? (
             <div
               style={{
                 display: "flex",
@@ -145,7 +164,7 @@ function Applied({ user_id }) {
                 flexDirection: "column",
               }}
             >
-              {dataForm.map((jobData) => (
+              {jobs.map((jobData) => (
                 <Card
                   key={jobData._id}
                   style={{ width: "25rem", marginBottom: "1rem" }}
@@ -201,27 +220,28 @@ function Applied({ user_id }) {
                     <div style={{ display: "flex", alignItems: "center" }}>
                       <div style={{ flex: 1 }}>
                         <div style={{ textAlign: "left" }}>
-                          <Button
-                            variant="contained"
-                            style={{
-                              backgroundColor: "white",
-                              color: "black",
-                              height: "50px",
-                              width: "80%",
-                              justifyContent: "flex-start",
-                              marginBottom: "19px",
-                            }}
+                          <Link
+                            to={jobData.link}
+                            style={{ alignItems: "left" }}
+                            target= "_blank"
                           >
-                            <Link
-                              to={jobData.link}
-                              style={{ alignItems: "left" }}
+                            <Button
+                              variant="contained"
+                              style={{
+                                backgroundColor: "white",
+                                color: "black",
+                                height: "50px",
+                                width: "80%",
+                                justifyContent: "flex-start",
+                                marginBottom: "19px",
+                              }}
                             >
                               <InputAdornment position="start">
                                 <InsertLinkIcon />
                               </InputAdornment>
-                            </Link>
-                            Company
-                          </Button>
+                              Company
+                            </Button>
+                          </Link>
                         </div>
                       </div>
                       <div style={{ flex: 1 }}>
@@ -270,43 +290,47 @@ function Applied({ user_id }) {
                 autoComplete="off"
                 padding={3}
               >
-                <FormControl>
+                <FormControl error={!!errors.companyName}>
                   <InputLabel htmlFor="component-outlined">
                     Company Name
                   </InputLabel>
                   <OutlinedInput
-                    id="component-outlined"
+                    id="company-name"
                     label="Company Name"
                     onChange={handleCompanyNameChange}
+                    required
                   />
                 </FormControl>
-                <FormControl>
+                <FormControl error={!!errors.role}>
                   <InputLabel htmlFor="component-outlined">
                     Role Applied For
                   </InputLabel>
                   <OutlinedInput
-                    id="component-outlined"
+                    id="role"
                     label="Role Applied For"
                     onChange={handleRoleChange}
+                    required
                   />
                 </FormControl>
-                <FormControl>
+                <FormControl error={!!errors.salaryRange}>
                   <InputLabel htmlFor="component-outlined">
                     Salary Range
                   </InputLabel>
                   <OutlinedInput
-                    id="component-outlined"
+                    id="salary-range"
                     label="Salary Range"
                     onChange={handleSalaryRangeChange}
+                    required
                   />
                 </FormControl>
                 <TextField
-                  id="outlined-select-currency"
+                  id="status"
                   select
                   label="Select"
                   defaultValue="Applied"
                   onChange={handleSelectStatus}
                   helperText="Please select your Status"
+                  required
                 >
                   {StatusDrop.map((option) => (
                     <MenuItem key={option.value} value={option.value}>
@@ -314,19 +338,22 @@ function Applied({ user_id }) {
                     </MenuItem>
                   ))}
                 </TextField>
-                <TextField
-                  id="outlined-select-currency"
-                  label="Link"
-                  helperText="Insert Link "
-                  onChange={handleLinkChange}
-                  InputProps={{
-                    startAdornment: (
-                      <InputAdornment position="start">
-                        <InsertLinkIcon />
-                      </InputAdornment>
-                    ),
-                  }}
-                />
+                <FormControl error={!!errors.link}>
+                  <TextField
+                    id="link"
+                    label="Link"
+                    helperText="Insert Link "
+                    onChange={handleLinkChange}
+                    required
+                    InputProps={{
+                      startAdornment: (
+                        <InputAdornment position="start">
+                          <InsertLinkIcon />
+                        </InputAdornment>
+                      ),
+                    }}
+                  />
+                </FormControl>
                 <Button
                   style={{
                     position: "absolute",

@@ -10,12 +10,14 @@ import Applied from "./Applied";
 import InProcess from "./InProcess";
 import Completed from "./Completed";
 import Grid from "@mui/material/Grid";
-
+import axios from "axios";
 function Dashboard() {
   const navigate = useNavigate();
   const [userDetails, setUserDetails] = useState(null);
   const [uid, setUid] = useState(null);
-
+  const [appliedJobs, setAppliedJobs] = useState([]);
+  const [inProcessJobs, setInProcessJobs] = useState([]);
+  const [completedJobs, setCompletedJobs] = useState([]);
   const fetchUserData = async () => {
     auth.onAuthStateChanged(async (user) => {
       if (user) {
@@ -38,9 +40,39 @@ function Dashboard() {
       }
     });
   };
+  const fetchAllJobs = () => {
+    axios
+      .get("http://localhost:8080/getjobs")
+      .then((response) => {
+        const jobs = response.data;
+        console.log(jobs);
+        setAppliedJobs(jobs.filter((job) => job.status === "Applied"));
+        setInProcessJobs(jobs.filter((job) => job.status === "InProcess"));
+        setCompletedJobs(jobs.filter((job) => job.status === "Completed"));
+      })
+      .catch((error) => {
+        console.log("error fetching", error);
+        toast.error("error fetching", error.message);
+      });
+  };
+
   useEffect(() => {
     fetchUserData();
+    fetchAllJobs();
   }, []);
+
+  const updateJobStatus = (id, newStatus) => {
+    axios
+      .put(`http://localhost:8080/updatejob/${id}`, { status: newStatus })
+      .then(() => {
+        toast.success(`Status Updated Successfully to ${newStatus}`);
+        fetchAllJobs(); // Refresh the job lists
+      })
+      .catch((err) => {
+        console.error("Error updating status", err);
+        toast.error(`Error Updating Status ${err.message}`);
+      });
+  };
 
   const handleLogout = async () => {
     try {
@@ -62,13 +94,24 @@ function Dashboard() {
           <Navbar userDetails={userDetails} handleLogout={handleLogout} />
           <Grid container spacing={2}>
             <Grid item xs={6} md={4}>
-              <Applied user_id={uid} />
+              <Applied
+                user_id={uid}
+                jobs={appliedJobs}
+                updateJobStatus={updateJobStatus}
+                fetchAllJobs={fetchAllJobs}
+              />
             </Grid>
             <Grid item xs={6} md={4}>
-              <InProcess />
+              <InProcess
+                jobs={inProcessJobs}
+                updateJobStatus={updateJobStatus}
+              />
             </Grid>
             <Grid item xs={6} md={4}>
-              <Completed />
+              <Completed
+                jobs={completedJobs}
+                updateJobStatus={updateJobStatus}
+              />
             </Grid>
           </Grid>
         </>

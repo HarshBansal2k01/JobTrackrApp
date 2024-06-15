@@ -4,8 +4,7 @@ import React, { useEffect, useState } from "react";
 import Button from "@mui/material/Button";
 import Dashboard from "./components/Dashboard";
 import { ToastContainer } from "react-toastify";
-import 'bootstrap/dist/css/bootstrap.min.css';
-
+import "bootstrap/dist/css/bootstrap.min.css";
 
 import {
   BrowserRouter as Router,
@@ -17,6 +16,7 @@ import Login from "./components/Login";
 import Register from "./components/Register";
 import { auth } from "./components/firebase.js";
 import { ColorRing } from "react-loader-spinner";
+import About from "./components/About.jsx";
 
 function App() {
   const [user, setUser] = useState();
@@ -53,7 +53,6 @@ function App() {
           wrapperClass="color-ring-wrapper"
           colors={["#e15b64", "#f47e60", "#f8b26a", "#abbd81", "#849b87"]}
         />
-        
       </div>
     );
   }
@@ -75,6 +74,10 @@ function App() {
             <Route
               path="/dashboard"
               element={user ? <Dashboard /> : <Navigate to="/login" />}
+            />
+            <Route
+              path="/about"
+              element={user ? <About /> : <Navigate to="/login" />}
             />
           </Routes>
         </div>
