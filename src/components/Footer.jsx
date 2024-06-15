@@ -6,10 +6,26 @@ import {
   Link,
   Grid,
   IconButton,
+  Tooltip,
 } from "@mui/material";
 import { Instagram, LinkedIn, Twitter } from "@mui/icons-material";
+import { toast } from "react-toastify";
 
 function Footer() {
+  const email = "bansalharsh0914@gmail.com";
+
+  const copyToClipboard = () => {
+    navigator.clipboard.writeText(email).then(
+      () => {
+        toast.success("Email Copied!!");
+      },
+      (err) => {
+        toast.error("Failed to copy");
+        console.error("Failed to copy: ", err);
+      }
+    );
+  };
+
   return (
     <Box
       component="footer"
@@ -29,21 +45,33 @@ function Footer() {
           JobTrackr
         </Typography>
         {/* Middle section */}
-        <Grid container justifyContent="center"  sx={{ mb: 2 }}>
+        <Grid container justifyContent="center" sx={{ mb: 2 }}>
           <Grid item xs={12}>
-            <Typography variant="body2" align="center" marginBottom={1} >
-              contact@jobtrackr.com
+            <Typography
+              type="button"
+              variant="body2"
+              align="center"
+              marginBottom={1}
+              style={{ cursor: "pointer", textDecoration: "underline" }}
+              onClick={copyToClipboard}
+            >
+              <Tooltip title="Click to copy email">
+                bansalharsh0914@gmail.com
+              </Tooltip>
             </Typography>
-            <Typography variant="body2" align="center" marginBottom={1} >
-              1234 Job Street, City, Country
-            </Typography>
-            <Typography variant="body2" align="center" marginBottom={1} >
-              +1 (123) 456-7890
+
+            <Typography variant="body2" align="center" marginBottom={1}>
+              Guwahati, Assam
             </Typography>
           </Grid>
         </Grid>
         {/* Bottom section */}
-        <Grid container justifyContent="space-between" alignItems="center" marginTop={-15}>
+        <Grid
+          container
+          justifyContent="space-between"
+          alignItems="center"
+          marginTop={-15}
+        >
           <Grid item>
             <Typography
               variant="body1"
@@ -59,21 +87,21 @@ function Footer() {
           </Grid>
           <Grid item xs={12} md={6} sx={{ textAlign: "right" }}>
             <IconButton
-              href="https://www.instagram.com/"
+              href="https://www.instagram.com/hhharsh_bansalll/"
               target="_blank"
               rel="noopener noreferrer"
             >
               <Instagram fontSize="large" />
             </IconButton>
             <IconButton
-              href="https://www.linkedin.com/"
+              href="https://www.linkedin.com/in/harsh-bansal-7441331b6/"
               target="_blank"
               rel="noopener noreferrer"
             >
               <LinkedIn fontSize="large" />
             </IconButton>
             <IconButton
-              href="https://twitter.com/"
+              href="https://x.com/hbbro14"
               target="_blank"
               rel="noopener noreferrer"
             >

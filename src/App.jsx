@@ -11,18 +11,23 @@ import {
   Routes,
   Route,
   Navigate,
+  useNavigate,
 } from "react-router-dom";
 import Login from "./components/Login";
 import Register from "./components/Register";
-import { auth } from "./components/firebase.js";
+import { auth, db } from "./components/firebase.js";
 import { ColorRing } from "react-loader-spinner";
 import About from "./components/About.jsx";
-
+import Contact from "./components/Contact.jsx";
+import Donate from "./components/Donate.jsx";
+import { doc, getDoc } from "firebase/firestore";
+import Profile from "./components/Profile.jsx";
 function App() {
+  // const navigate = useNavigate();
   const [user, setUser] = useState();
-
+  const [userDetails, setUserDetails] = useState(null);
   const [loading, setLoading] = useState(true);
-
+  const [uid, setUid] = useState(null);
   useEffect(() => {
     const unsubscribe = auth.onAuthStateChanged((user) => {
       setUser(user);
@@ -32,7 +37,9 @@ function App() {
 
     return () => unsubscribe();
   }, []);
-
+  useEffect(() =>{
+    console.log("data",userDetails)
+  },[userDetails])
   if (loading) {
     return (
       <div
@@ -56,33 +63,81 @@ function App() {
       </div>
     );
   }
+
+  const fetchUserData = async () => {
+    auth.onAuthStateChanged(async (user) => {
+      if (user) {
+        try {
+          const docRef = doc(db, "Users", user.uid);
+          const docSnap = await getDoc(docRef);
+          if (docSnap.exists()) {
+            setUserDetails(docSnap.data());
+            console.log(docSnap.data());
+            setUid(user.uid);
+          } else {
+            console.log("No user data found!");
+          }
+        } catch (error) {
+          console.error("Error fetching user data:", error);
+        }
+      } else {
+        console.log("User not logged in");
+        // navigate("/login");
+        window.location.href("/login")
+      }
+    });
+  };
+
+
+
+  
   return (
-    <Router>
-      <div>
-        <ToastContainer />
+    <>
+      <Router>
         <div>
-          <Routes>
-            <Route
-              path="/"
-              element={user ? <Navigate to="/dashboard" /> : <Login />}
-            />
-            <Route
-              path="/login"
-              element={user ? <Navigate to="/dashboard" /> : <Login />}
-            />
-            <Route path="/register" element={<Register />} />
-            <Route
-              path="/dashboard"
-              element={user ? <Dashboard /> : <Navigate to="/login" />}
-            />
-            <Route
-              path="/about"
-              element={user ? <About /> : <Navigate to="/login" />}
-            />
-          </Routes>
+          <ToastContainer />
+          <div>
+            <Routes>
+              <Route
+                path="/"
+                element={user ? <Navigate to="/dashboard" /> : <Login />}
+              />
+              <Route
+                path="/login"
+                element={user ? <Navigate to="/dashboard" /> : <Login />}
+              />
+              <Route path="/register" element={<Register />} />
+              <Route
+                path="/dashboard"
+                element={
+                  user ? (
+                    <Dashboard fetchUserData={fetchUserData} userDetails={userDetails} uid={uid} />
+                  ) : (
+                    <Navigate to="/login" />
+                  )
+                }
+              />
+              <Route
+                path="/about"
+                element={user ? <About fetchUserData={fetchUserData} userDetails={userDetails} uid={uid} /> : <Navigate to="/login" />}
+              />
+              <Route
+                path="/contact"
+                element= {<Contact uid={uid} fetchUserData={fetchUserData}  userDetails={userDetails} /> }
+              />
+              <Route
+                path="/donate"
+                element={<Donate  uid={uid} fetchUserData={fetchUserData}  userDetails={userDetails}/>}
+              />
+              <Route
+                path="dashboard/profile"
+                element={<Profile  uid={uid} fetchUserData={fetchUserData}  userDetails={userDetails}/>}
+              />
+            </Routes>
+          </div>
         </div>
-      </div>
-    </Router>
+      </Router>
+    </>
   );
 }
 

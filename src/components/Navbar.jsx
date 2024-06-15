@@ -30,6 +30,7 @@ function Navbar({ userDetails, handleLogout }) {
 
   const handleCloseNavMenu = () => {
     setAnchorElNav(null);
+    console.log("clcike");
   };
 
   const handleCloseUserMenu = () => {
@@ -41,23 +42,28 @@ function Navbar({ userDetails, handleLogout }) {
       <Container maxWidth="xl">
         <Toolbar disableGutters>
           <AdbIcon sx={{ display: { xs: "none", md: "flex" }, mr: 1 }} />
-          <Typography
-            variant="h6"
-            noWrap
-            component="a"
-            href="#app-bar-with-responsive-menu"
-            sx={{
-              mr: 2,
-              display: { xs: "none", md: "flex" },
-              fontFamily: "monospace",
-              fontWeight: 700,
-              letterSpacing: ".3rem",
-              color: "inherit",
-              textDecoration: "none",
-            }}
+          <Link
+            to="/dashboard"
+            style={{ textDecoration: "none", color: "inherit" }}
           >
-            JobTrackr
-          </Typography>
+            <Typography
+              variant="h6"
+              noWrap
+              component="a"
+              href="#app-bar-with-responsive-menu"
+              sx={{
+                mr: 2,
+                display: { xs: "none", md: "flex" },
+                fontFamily: "monospace",
+                fontWeight: 700,
+                letterSpacing: ".3rem",
+                color: "inherit",
+                textDecoration: "none",
+              }}
+            >
+              JobTrackr
+            </Typography>
+          </Link>
 
           <Box sx={{ flexGrow: 1, display: { xs: "flex", md: "none" } }}>
             <IconButton
@@ -103,33 +109,17 @@ function Navbar({ userDetails, handleLogout }) {
             </Menu>
           </Box>
           <AdbIcon sx={{ display: { xs: "flex", md: "none" }, mr: 1 }} />
-          <Typography
-            variant="h5"
-            noWrap
-            component="a"
-            href="#app-bar-with-responsive-menu"
-            sx={{
-              mr: 2,
-              display: { xs: "flex", md: "none" },
-              flexGrow: 1,
-              fontFamily: "monospace",
-              fontWeight: 700,
-              letterSpacing: ".3rem",
-              color: "inherit",
-              textDecoration: "none",
-            }}
-          >
-            LOGO
-          </Typography>
+
           <Box sx={{ flexGrow: 1, display: { xs: "none", md: "flex" } }}>
             {pages.map((page) => (
-              <Button
-                key={page}
-                onClick={handleCloseNavMenu}
-                sx={{ my: 2, color: "white", display: "block" }}
-              >
-                {page}
-              </Button>
+              <Link key={page} to={`/${page.toLowerCase()}`}>
+                <Button
+                  onClick={handleCloseNavMenu}
+                  sx={{ my: 2, color: "white", display: "block" }}
+                >
+                  {page}
+                </Button>
+              </Link>
             ))}
           </Box>
 
@@ -169,7 +159,14 @@ function Navbar({ userDetails, handleLogout }) {
                     setting === "Logout" ? handleLogout : handleCloseUserMenu
                   }
                 >
-                  <Typography textAlign="center">{setting}</Typography>
+                  <Link key={setting} to={`${setting.toLowerCase()}`}>
+                    <Typography
+                      sx={{ color: "black", display: "block" }}
+                      textAlign="center"
+                    >
+                      {setting}
+                    </Typography>
+                  </Link>
                 </MenuItem>
               ))}
             </Menu>

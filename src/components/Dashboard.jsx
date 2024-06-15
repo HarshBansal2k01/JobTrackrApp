@@ -11,35 +11,37 @@ import InProcess from "./InProcess";
 import Completed from "./Completed";
 import Grid from "@mui/material/Grid";
 import axios from "axios";
-function Dashboard() {
+function Dashboard({fetchUserData , userDetails ,uid}) {
   const navigate = useNavigate();
-  const [userDetails, setUserDetails] = useState(null);
-  const [uid, setUid] = useState(null);
+  // const [userDetails, setUserDetails] = useState(null);
+  // const [uid, setUid] = useState(null);
   const [appliedJobs, setAppliedJobs] = useState([]);
   const [inProcessJobs, setInProcessJobs] = useState([]);
   const [completedJobs, setCompletedJobs] = useState([]);
-  const fetchUserData = async () => {
-    auth.onAuthStateChanged(async (user) => {
-      if (user) {
-        try {
-          const docRef = doc(db, "Users", user.uid);
-          const docSnap = await getDoc(docRef);
-          if (docSnap.exists()) {
-            setUserDetails(docSnap.data());
-            console.log(docSnap.data());
-            setUid(user.uid);
-          } else {
-            console.log("No user data found!");
-          }
-        } catch (error) {
-          console.error("Error fetching user data:", error);
-        }
-      } else {
-        console.log("User not logged in");
-        navigate("/login");
-      }
-    });
-  };
+  // const fetchUserData = async () => {
+  //   auth.onAuthStateChanged(async (user) => {
+  //     if (user) {
+  //       try {
+  //         const docRef = doc(db, "Users", user.uid);
+  //         const docSnap = await getDoc(docRef);
+  //         if (docSnap.exists()) {
+  //           setUserDetails(docSnap.data());
+  //           console.log(docSnap.data());
+  //           setUid(user.uid);
+  //         } else {
+  //           console.log("No user data found!");
+  //         }
+  //       } catch (error) {
+  //         console.error("Error fetching user data:", error);
+  //       }
+  //     } else {
+  //       console.log("User not logged in");
+  //       navigate("/login");
+  //     }
+  //   });
+  // };
+
+  fetchUserData()
   const fetchAllJobs = () => {
     axios
       .get("http://localhost:8080/getjobs")
