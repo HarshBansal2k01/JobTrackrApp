@@ -93,14 +93,15 @@ function Navbar({ userDetails, handleLogout }) {
               sx={{
                 display: { xs: "block", md: "none" },
               }}
+            
             >
               {pages.map((page) => (
                 <MenuItem key={page} onClick={handleCloseNavMenu}>
                   <Link
                     to={`/${page.toLowerCase()}`}
-                    style={{ textDecoration: "none", color: "inherit" }}
+                   
                   >
-                    <Typography variant="body1" textAlign="center">
+                    <Typography variant="body1" textAlign="center"  >
                       {page}
                     </Typography>
                   </Link>
@@ -159,7 +160,7 @@ function Navbar({ userDetails, handleLogout }) {
                     setting === "Logout" ? handleLogout : handleCloseUserMenu
                   }
                 >
-                  <Link key={setting} to={`${setting.toLowerCase()}`}>
+                  <Link key={setting} to={`/${setting.toLowerCase()}`}>
                     <Typography
                       sx={{ color: "black", display: "block" }}
                       textAlign="center"

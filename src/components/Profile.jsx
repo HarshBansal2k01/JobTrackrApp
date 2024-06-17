@@ -7,6 +7,9 @@ import { Button, CardActionArea, CardActions, styled } from "@mui/material";
 import Navbar from "./Navbar";
 import Footer from "./Footer";
 import AccountCircleIcon from "@mui/icons-material/AccountCircle";
+import { auth } from "./firebase";
+import { toast } from "react-toastify";
+import { useNavigate } from "react-router-dom";
 const CenteredCard = styled(Card)({
   maxWidth: 345,
   margin: "auto",
@@ -22,12 +25,26 @@ const ProfileImage = styled(CardMedia)({
   objectFit: "cover",
 });
 function Profile({ fetchUserData, userDetails, uid }) {
+
+  const navigate = useNavigate()
+
+  const handleLogout = async () => {
+    try {
+      await auth.signOut();
+      navigate("/login");
+      toast.success("logged out");
+      console.log("logged out");
+    } catch (error) {
+      toast.error("error logging out", error.message);
+      console.log("error logging out", error);
+    }
+  };
   return (
     <>
       <div
         style={{ display: "flex", flexDirection: "column", minHeight: "100vh" }}
       >
-        <Navbar userDetails={userDetails} />
+        <Navbar userDetails={userDetails} handleLogout={handleLogout} />
 
         <CenteredCard>
          

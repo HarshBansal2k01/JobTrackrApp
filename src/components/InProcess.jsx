@@ -13,7 +13,8 @@ import Select from "@mui/material/Select";
 import { Link } from "react-router-dom";
 import axios from "axios";
 import { toast } from "react-toastify";
-function InProcess({ jobs, updateJobStatus}) {
+import QueueIcon from "@mui/icons-material/Queue";
+function InProcess({ jobs, updateJobStatus }) {
   const handleStatusChange = (id, event) => {
     console.log(event);
 
@@ -21,7 +22,7 @@ function InProcess({ jobs, updateJobStatus}) {
   };
   return (
     <>
-      <div style={{ marginTop: "5px" }}>
+      <div style={{ textAlign: "center", padding: "5px" }}>
         {jobs.length > 0 ? (
           <div
             style={{
@@ -136,7 +137,24 @@ function InProcess({ jobs, updateJobStatus}) {
             ))}
           </div>
         ) : (
-          <div>No data available</div>
+          <Card>
+            <Card.Body>
+              <Card.Title
+                style={{
+                  display: "flex",
+                  justifyContent: "center",
+                  alignItems: "center",
+                  fontSize: "24px",
+                  fontWeight: "bold",
+                  fontFamily: "Arial, sans-serif",
+                  textAlign: "center",
+                }}
+              >
+                <QueueIcon style={{ fontSize: 50, marginRight: 10 }} />
+              </Card.Title>
+              <strong>No Jobs In-Process</strong>
+            </Card.Body>
+          </Card>
         )}
       </div>
     </>

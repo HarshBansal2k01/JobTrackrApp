@@ -11,7 +11,7 @@ import {
   Routes,
   Route,
   Navigate,
-  useNavigate,
+
 } from "react-router-dom";
 import Login from "./components/Login";
 import Register from "./components/Register";
@@ -37,9 +37,13 @@ function App() {
 
     return () => unsubscribe();
   }, []);
+  
   useEffect(() =>{
-    console.log("data",userDetails)
+    // console.log("data",userDetails)
   },[userDetails])
+
+
+  
   if (loading) {
     return (
       <div
@@ -72,7 +76,7 @@ function App() {
           const docSnap = await getDoc(docRef);
           if (docSnap.exists()) {
             setUserDetails(docSnap.data());
-            console.log(docSnap.data());
+            // console.log(docSnap.data());
             setUid(user.uid);
           } else {
             console.log("No user data found!");
@@ -130,7 +134,7 @@ function App() {
                 element={<Donate  uid={uid} fetchUserData={fetchUserData}  userDetails={userDetails}/>}
               />
               <Route
-                path="dashboard/profile"
+                path="/profile"
                 element={<Profile  uid={uid} fetchUserData={fetchUserData}  userDetails={userDetails}/>}
               />
             </Routes>

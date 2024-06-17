@@ -19,6 +19,7 @@ import Select from "@mui/material/Select";
 import { Link } from "react-router-dom";
 import axios from "axios";
 import { toast } from "react-toastify";
+import PlayCircleFilledWhiteIcon from '@mui/icons-material/PlayCircleFilledWhite';
 import.meta.env.BACKEND_URL;
 
 const StatusDrop = [
@@ -37,6 +38,7 @@ function Applied({ user_id, jobs, updateJobStatus, fetchAllJobs }) {
   const [role, setRole] = useState("");
   const [salaryRange, setSalaryRange] = useState("");
   const [link, setLink] = useState("");
+  const [isValidUrl, setIsValidUrl] = useState(true);
   const [isOpen, setIsOpen] = useState(false);
   const [dataForm, setDataForm] = useState([]);
   const [selectStatus, setSelectStatus] = useState("Applied");
@@ -68,34 +70,18 @@ function Applied({ user_id, jobs, updateJobStatus, fetchAllJobs }) {
 
   const handleStatusChange = (id, event) => {
     console.log(event);
-    // handleStatusUpdate(id, { status: event });
-    // const updatedStatus = dataForm.map((status) => {
-    //   if (status._id === id) {
 
-    //     return { ...status, status: event };
-    //   }
-    //   return status;
-    // });
-    // setDataForm(updatedStatus);
     updateJobStatus(id, event);
   };
-  // const handleStatusUpdate = (jobId, status) => {
-  //   axios
-  //     .put(`http://localhost:8080/updatejob/${jobId} `, status)
-  //     .then((res) => {
-  //       // setStatus(status);
-  //       console.log("Status Updated Successfully", res);
-  //       updateJobStatus(jobId, status.status);
-  //       toast.success(`Status Updated Successfully to ${status.status}`);
-  //     })
-  //     .catch((err) => {
-  //       console.log("Error updating status", err);
-  //       toast.error(`Error Updating Status ${err.message}`);
-  //     });
-  // };
 
   const handleLinkChange = (event) => {
     setLink(event.target.value);
+    setIsValidUrl(validateUrl(event.target.value));
+  };
+
+  const validateUrl = (url) => {
+    const pattern = /^(ftp|http|https):\/\/[^ "]+$/;
+    return pattern.test(url);
   };
 
   const handleSubmit = (e) => {
@@ -121,7 +107,7 @@ function Applied({ user_id, jobs, updateJobStatus, fetchAllJobs }) {
         .then((res) => {
           console.log("Job added successfully", res);
           toast.success("Job added successfully");
-          fetchAllJobs();
+          fetchAllJobs(user_id);
         })
         .catch((err) => {
           console.error("Error adding job", err);
@@ -136,25 +122,10 @@ function Applied({ user_id, jobs, updateJobStatus, fetchAllJobs }) {
     }
   };
 
-  // const fetchAllJobs = () => {
-  //   axios
-  //     .get("http://localhost:8080/getjobs")
-  //     .then((response) => {
-  //       setDataForm(response.data);
-  //     })
-  //     .catch((error) => {
-  //       console.log("error fetching", error);
-  //       toast.error("error fetching", error.message);
-  //     });
-  // };
-
-  // useEffect(() => {
-  //   fetchAllJobs();
-  // }, []);
   return (
     <>
       <div style={{ textAlign: "center", padding: "5px" }}>
-        <div style={{ marginTop: "5px" }}>
+        <div>
           {jobs.length > 0 ? (
             <div
               style={{
@@ -223,7 +194,7 @@ function Applied({ user_id, jobs, updateJobStatus, fetchAllJobs }) {
                           <Link
                             to={jobData.link}
                             style={{ alignItems: "left" }}
-                            target= "_blank"
+                            target="_blank"
                           >
                             <Button
                               variant="contained"
@@ -270,7 +241,28 @@ function Applied({ user_id, jobs, updateJobStatus, fetchAllJobs }) {
               ))}
             </div>
           ) : (
-            <div>No data available</div>
+            <div>
+              <Card>
+                <Card.Body>
+                  <Card.Title
+                    style={{
+                      display: "flex",
+                      justifyContent: "center",
+                      alignItems: "center",
+                      fontSize: "24px",
+                      fontWeight: "bold",
+                      fontFamily: "Arial, sans-serif",
+                      textAlign: "center",
+                    }}
+                  >
+                    <PlayCircleFilledWhiteIcon
+                      style={{ fontSize: 50, marginRight: 10 }}
+                    />
+                  </Card.Title>
+                  <strong>Please Add Jobs To Show</strong>
+                </Card.Body>
+              </Card>
+            </div>
           )}
         </div>
         <form action="" onSubmit={handleSubmit}>
@@ -290,7 +282,7 @@ function Applied({ user_id, jobs, updateJobStatus, fetchAllJobs }) {
                 autoComplete="off"
                 padding={3}
               >
-                <FormControl error={!!errors.companyName}>
+                <FormControl>
                   <InputLabel htmlFor="component-outlined">
                     Company Name
                   </InputLabel>
@@ -301,7 +293,7 @@ function Applied({ user_id, jobs, updateJobStatus, fetchAllJobs }) {
                     required
                   />
                 </FormControl>
-                <FormControl error={!!errors.role}>
+                <FormControl>
                   <InputLabel htmlFor="component-outlined">
                     Role Applied For
                   </InputLabel>
@@ -312,7 +304,7 @@ function Applied({ user_id, jobs, updateJobStatus, fetchAllJobs }) {
                     required
                   />
                 </FormControl>
-                <FormControl error={!!errors.salaryRange}>
+                <FormControl>
                   <InputLabel htmlFor="component-outlined">
                     Salary Range
                   </InputLabel>
@@ -338,11 +330,14 @@ function Applied({ user_id, jobs, updateJobStatus, fetchAllJobs }) {
                     </MenuItem>
                   ))}
                 </TextField>
-                <FormControl error={!!errors.link}>
+                <FormControl>
                   <TextField
                     id="link"
                     label="Link"
-                    helperText="Insert Link "
+                    helperText={
+                      isValidUrl ? "Insert Link" : "Please enter a valid URL"
+                    }
+                    error={!isValidUrl}
                     onChange={handleLinkChange}
                     required
                     InputProps={{

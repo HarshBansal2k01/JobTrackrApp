@@ -5,6 +5,9 @@ import Paper from "@mui/material/Paper";
 import { Box, IconButton, Typography } from "@mui/material";
 import { Instagram, LinkedIn, Twitter } from "@mui/icons-material";
 import EmailIcon from "@mui/icons-material/Email";
+import { useNavigate } from "react-router-dom";
+import { auth } from "./firebase";
+import { toast } from "react-toastify";
 
 function Contact({ fetchUserData, userDetails, uid }) {
   const email = "bansalharsh0914@gmail.com";
@@ -12,12 +15,26 @@ function Contact({ fetchUserData, userDetails, uid }) {
   const handleClick = () => {
     window.open(`mailto:${email}`);
   };
+
+  const navigate = useNavigate()
+
+  const handleLogout = async () => {
+    try {
+      await auth.signOut();
+      navigate("/login");
+      toast.success("logged out");
+      console.log("logged out");
+    } catch (error) {
+      toast.error("error logging out", error.message);
+      console.log("error logging out", error);
+    }
+  };
   return (
     <>
       <div
         style={{ display: "flex", flexDirection: "column", minHeight: "100vh" }}
       >
-        <Navbar userDetails={userDetails} />
+        <Navbar userDetails={userDetails} handleLogout={handleLogout}/>
         <div>
           <Box
             sx={{

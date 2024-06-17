@@ -11,64 +11,41 @@ import InProcess from "./InProcess";
 import Completed from "./Completed";
 import Grid from "@mui/material/Grid";
 import axios from "axios";
-function Dashboard({fetchUserData , userDetails ,uid}) {
+function Dashboard({fetchUserData , userDetails,uid }) {
   const navigate = useNavigate();
-  // const [userDetails, setUserDetails] = useState(null);
-  // const [uid, setUid] = useState(null);
+
   const [appliedJobs, setAppliedJobs] = useState([]);
   const [inProcessJobs, setInProcessJobs] = useState([]);
   const [completedJobs, setCompletedJobs] = useState([]);
-  // const fetchUserData = async () => {
-  //   auth.onAuthStateChanged(async (user) => {
-  //     if (user) {
-  //       try {
-  //         const docRef = doc(db, "Users", user.uid);
-  //         const docSnap = await getDoc(docRef);
-  //         if (docSnap.exists()) {
-  //           setUserDetails(docSnap.data());
-  //           console.log(docSnap.data());
-  //           setUid(user.uid);
-  //         } else {
-  //           console.log("No user data found!");
-  //         }
-  //       } catch (error) {
-  //         console.error("Error fetching user data:", error);
-  //       }
-  //     } else {
-  //       console.log("User not logged in");
-  //       navigate("/login");
-  //     }
-  //   });
-  // };
 
-  fetchUserData()
-  const fetchAllJobs = () => {
-    axios
-      .get("http://localhost:8080/getjobs")
+
+  const fetchAllJobs = (uid) => {
+    axios.get(`http://localhost:8080/getjobs?uid=${uid}`)
       .then((response) => {
         const jobs = response.data;
-        console.log(jobs);
         setAppliedJobs(jobs.filter((job) => job.status === "Applied"));
         setInProcessJobs(jobs.filter((job) => job.status === "InProcess"));
         setCompletedJobs(jobs.filter((job) => job.status === "Completed"));
       })
       .catch((error) => {
-        console.log("error fetching", error);
-        toast.error("error fetching", error.message);
+        console.log("Error fetching jobs", error);
+        toast.error("Error fetching jobs", error.message);
       });
   };
+  
 
   useEffect(() => {
     fetchUserData();
-    fetchAllJobs();
-  }, []);
+    console.log("uid", uid)
+    fetchAllJobs(uid);
+  }, [uid]);
 
   const updateJobStatus = (id, newStatus) => {
     axios
       .put(`http://localhost:8080/updatejob/${id}`, { status: newStatus })
       .then(() => {
         toast.success(`Status Updated Successfully to ${newStatus}`);
-        fetchAllJobs(); // Refresh the job lists
+        fetchAllJobs(uid); 
       })
       .catch((err) => {
         console.error("Error updating status", err);
@@ -87,6 +64,7 @@ function Dashboard({fetchUserData , userDetails ,uid}) {
       console.log("error logging out", error);
     }
   };
+
   return (
     <div
       style={{ display: "flex", flexDirection: "column", minHeight: "100vh" }}
