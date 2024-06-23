@@ -11,15 +11,33 @@ import FormControl from "@mui/material/FormControl";
 import InsertLinkIcon from "@mui/icons-material/InsertLink";
 import Select from "@mui/material/Select";
 import { Link } from "react-router-dom";
+import DeleteIcon from "@mui/icons-material/Delete";
 import axios from "axios";
 import { toast } from "react-toastify";
 import LibraryAddCheckIcon from "@mui/icons-material/LibraryAddCheck";
-function Completed({ jobs, updateJobStatus }) {
+function Completed({ jobs, updateJobStatus, fetchAllJobs, uid }) {
   const handleStatusChange = (id, event) => {
     console.log(event);
 
     updateJobStatus(id, event);
   };
+
+  const deleteJob = async (id) => {
+    console.log("Deleting job with ID:", id);
+
+    axios
+      .delete(`http://localhost:8080/deletejob/${id}`)
+      .then((response) => {
+        console.log(response.data); // Log response if needed
+        fetchAllJobs(uid);
+        toast.success("Job Deleted Successfully");
+      })
+      .catch((error) => {
+        console.error("Error Deleting the job:", error.message);
+        toast.error(`Error Deleting the job ${error.message}`);
+      });
+  };
+
   return (
     <>
       <div style={{ textAlign: "center", padding: "5px" }}>
@@ -48,7 +66,7 @@ function Completed({ jobs, updateJobStatus }) {
                       textAlign: "left",
                     }}
                   >
-                    <BusinessIcon style={{ fontSize: 30, marginRight: 10 }} />{" "}
+                    <BusinessIcon style={{ fontSize: 30, marginRight: 10 }} />
                     {jobData.company_name}
                   </Card.Title>
 
@@ -85,8 +103,14 @@ function Completed({ jobs, updateJobStatus }) {
                     />
                     {jobData.salary_range}
                   </Card.Title>
-                  <div style={{ display: "flex", alignItems: "center" }}>
-                    <div style={{ flex: 1 }}>
+                  <div
+                    style={{
+                      display: "flex",
+                      alignItems: "center",
+                      flexWrap: "wrap",
+                    }}
+                  >
+                    <div style={{ flex: 1, minWidth: "150px" }}>
                       <div style={{ textAlign: "left" }}>
                         <Button
                           variant="contained"
@@ -94,14 +118,14 @@ function Completed({ jobs, updateJobStatus }) {
                             backgroundColor: "white",
                             color: "black",
                             height: "50px",
-                            width: "80%",
+                            width: "100%",
                             justifyContent: "flex-start",
                             marginBottom: "19px",
                           }}
                         >
                           <Link
                             to={jobData.link}
-                            style={{ alignItems: "left" }}
+                            style={{ display: "flex", alignItems: "center" }}
                           >
                             <InputAdornment position="start">
                               <InsertLinkIcon />
@@ -111,7 +135,7 @@ function Completed({ jobs, updateJobStatus }) {
                         </Button>
                       </div>
                     </div>
-                    <div style={{ flex: 1 }}>
+                    <div style={{ flex: 1, minWidth: "150px" }}>
                       <FormControl sx={{ m: 1 }}>
                         <InputLabel>Status</InputLabel>
                         <Select
@@ -132,6 +156,28 @@ function Completed({ jobs, updateJobStatus }) {
                       </FormControl>
                     </div>
                   </div>
+                  <div style={{ display: "flex", alignItems: "center" }}>
+                    <div style={{ flex: 1, minWidth: "150px" }}>
+                      <div>
+                        <Button
+                          variant="contained"
+                          style={{
+                            backgroundColor: "#DC143C",
+                            color: "black",
+                            height: "50px",
+                            width: "100%",
+                            textAlign: "center",
+                          }}
+                          onClick={(e) => {
+                            deleteJob(jobData._id, e.target.value); // Pass jobData._id to deleteJob
+                          }}
+                        >
+                          <DeleteIcon />
+                          Delete
+                        </Button>
+                      </div>
+                    </div>
+                  </div>
                 </Card.Body>
               </Card>
             ))}
@@ -150,7 +196,9 @@ function Completed({ jobs, updateJobStatus }) {
                   textAlign: "center",
                 }}
               >
-                <LibraryAddCheckIcon style={{ fontSize: 50, marginRight: 10 }} />
+                <LibraryAddCheckIcon
+                  style={{ fontSize: 50, marginRight: 10 }}
+                />
               </Card.Title>
               <strong>No Job Process Completed</strong>
             </Card.Body>

@@ -13,8 +13,8 @@ import Tooltip from "@mui/material/Tooltip";
 import MenuItem from "@mui/material/MenuItem";
 import AdbIcon from "@mui/icons-material/Adb";
 import { Link } from "react-router-dom";
-
-const pages = ["About", "Contact", "Donate $"];
+import AttachMoneyIcon from "@mui/icons-material/AttachMoney";
+const pages = ["About", "Contact", "Donate"];
 const settings = ["Profile", "Dashboard", "Logout"];
 
 function Navbar({ userDetails, handleLogout }) {
@@ -93,15 +93,11 @@ function Navbar({ userDetails, handleLogout }) {
               sx={{
                 display: { xs: "block", md: "none" },
               }}
-            
             >
               {pages.map((page) => (
                 <MenuItem key={page} onClick={handleCloseNavMenu}>
-                  <Link
-                    to={`/${page.toLowerCase()}`}
-                   
-                  >
-                    <Typography variant="body1" textAlign="center"  >
+                  <Link to={`/${page.toLowerCase()}`}>
+                    <Typography variant="body1" textAlign="center">
                       {page}
                     </Typography>
                   </Link>

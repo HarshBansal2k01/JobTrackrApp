@@ -83,12 +83,16 @@ function Dashboard({fetchUserData , userDetails,uid }) {
             </Grid>
             <Grid item xs={6} md={4}>
               <InProcess
+              uid={uid}
                 jobs={inProcessJobs}
                 updateJobStatus={updateJobStatus}
+                fetchAllJobs={fetchAllJobs}
               />
             </Grid>
             <Grid item xs={6} md={4}>
               <Completed
+              fetchAllJobs={fetchAllJobs}
+              uid={uid}
                 jobs={completedJobs}
                 updateJobStatus={updateJobStatus}
               />

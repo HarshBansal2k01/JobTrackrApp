@@ -1,14 +1,15 @@
-     {/* <img
-            src={userDetails.photo}
-            width={"40%"}
-            style={{ borderRadius: "50%" }}
-          />
-          <h3>{userDetails.firstName}</h3>
-          <div>
-            <p>{userDetails.email}</p>
-            <p>
-              {userDetails.lastName
-                ? userDetails.lastName
-                : userDetails.firstName.split(" ").pop()}
-            </p>
-          </div> */}
+ // const fetchProcessOptions = (jobId) => {
+  //   axios
+  //     .get(`http://localhost:8080/getprocess?jobId=${jobId}`)
+  //     .then((response) => {
+  //       console.log("job id :: ", jobId)
+  //       const jobsProcess = response.data[0].process;
+  //       console.log("process-> ", jobsProcess);
+  //       const processArray = jobsProcess ? jobsProcess.split(",") : [];
+  //       setOptions(processArray);
+  //     })
+  //     .catch((error) => {
+  //       console.log("Error fetching Process", error.message);
+  //       toast.error("Error fetching Process", error.message);
+  //     });
+  // };

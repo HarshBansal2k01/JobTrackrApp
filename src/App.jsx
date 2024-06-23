@@ -11,7 +11,6 @@ import {
   Routes,
   Route,
   Navigate,
-
 } from "react-router-dom";
 import Login from "./components/Login";
 import Register from "./components/Register";
@@ -22,6 +21,8 @@ import Contact from "./components/Contact.jsx";
 import Donate from "./components/Donate.jsx";
 import { doc, getDoc } from "firebase/firestore";
 import Profile from "./components/Profile.jsx";
+import Success from "./components/Success.jsx";
+import Cancelled from "./components/Cancelled.jsx";
 function App() {
   // const navigate = useNavigate();
   const [user, setUser] = useState();
@@ -37,13 +38,11 @@ function App() {
 
     return () => unsubscribe();
   }, []);
-  
-  useEffect(() =>{
+
+  useEffect(() => {
     // console.log("data",userDetails)
-  },[userDetails])
+  }, [userDetails]);
 
-
-  
   if (loading) {
     return (
       <div
@@ -87,14 +86,11 @@ function App() {
       } else {
         console.log("User not logged in");
         // navigate("/login");
-        window.location.href("/login")
+        window.location.href("/login");
       }
     });
   };
 
-
-
-  
   return (
     <>
       <Router>
@@ -115,7 +111,11 @@ function App() {
                 path="/dashboard"
                 element={
                   user ? (
-                    <Dashboard fetchUserData={fetchUserData} userDetails={userDetails} uid={uid} />
+                    <Dashboard
+                      fetchUserData={fetchUserData}
+                      userDetails={userDetails}
+                      uid={uid}
+                    />
                   ) : (
                     <Navigate to="/login" />
                   )
@@ -123,20 +123,60 @@ function App() {
               />
               <Route
                 path="/about"
-                element={user ? <About fetchUserData={fetchUserData} userDetails={userDetails} uid={uid} /> : <Navigate to="/login" />}
+                element={
+                  user ? (
+                    <About
+                      fetchUserData={fetchUserData}
+                      userDetails={userDetails}
+                      uid={uid}
+                    />
+                  ) : (
+                    <Navigate to="/login" />
+                  )
+                }
               />
               <Route
                 path="/contact"
-                element= {<Contact uid={uid} fetchUserData={fetchUserData}  userDetails={userDetails} /> }
+                element={
+                  <Contact
+                    uid={uid}
+                    fetchUserData={fetchUserData}
+                    userDetails={userDetails}
+                  />
+                }
               />
               <Route
                 path="/donate"
-                element={<Donate  uid={uid} fetchUserData={fetchUserData}  userDetails={userDetails}/>}
+                element={
+                  <Donate
+                    uid={uid}
+                    fetchUserData={fetchUserData}
+                    userDetails={userDetails}
+                  />
+                }
               />
               <Route
                 path="/profile"
-                element={<Profile  uid={uid} fetchUserData={fetchUserData}  userDetails={userDetails}/>}
+                element={
+                  <Profile
+                    uid={uid}
+                    fetchUserData={fetchUserData}
+                    userDetails={userDetails}
+                  />
+                }
               />
+              <Route
+                path="/donate"
+                element={
+                  <Donate
+                    uid={uid}
+                    fetchUserData={fetchUserData}
+                    userDetails={userDetails}
+                  />
+                }
+              />
+              <Route path="/success" element={<Success />} />
+              <Route path="/cancelled" element={<Cancelled />} />
             </Routes>
           </div>
         </div>
