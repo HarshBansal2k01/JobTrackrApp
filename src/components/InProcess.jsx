@@ -54,6 +54,7 @@ function InProcess({ jobs, updateJobStatus, uid, fetchAllJobs }) {
 
     if (jobs.length > 0) {
       fetchProcesses();
+      
     }
   }, [jobs]);
 

@@ -19,7 +19,7 @@ import Select from "@mui/material/Select";
 import { Link } from "react-router-dom";
 import axios from "axios";
 import { toast } from "react-toastify";
-import PlayCircleFilledWhiteIcon from '@mui/icons-material/PlayCircleFilledWhite';
+import PlayCircleFilledWhiteIcon from "@mui/icons-material/PlayCircleFilledWhite";
 import.meta.env.BACKEND_URL;
 
 const StatusDrop = [
@@ -267,7 +267,11 @@ function Applied({ user_id, jobs, updateJobStatus, fetchAllJobs }) {
         </div>
         <form action="" onSubmit={handleSubmit}>
           <div style={{ marginTop: "10px", marginBottom: "10px" }}>
-            <Button variant="contained" onClick={() => setIsOpen(true)}>
+            <Button
+              variant="contained"
+              onClick={() => setIsOpen(true)}
+              style={{ background: "#27374D" }}
+            >
               {" "}
               Add Job{" "}
             </Button>
@@ -354,6 +358,7 @@ function Applied({ user_id, jobs, updateJobStatus, fetchAllJobs }) {
                     position: "absolute",
                     right: "10px",
                     bottom: "10px",
+                    background: "#27374D",
                   }}
                   variant="contained"
                   type="submit"

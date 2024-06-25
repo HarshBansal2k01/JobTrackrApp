@@ -93,94 +93,97 @@ function App() {
 
   return (
     <>
-      <Router>
-        <div>
-          <ToastContainer />
+      <div className="App" style={{background:"#DDE6ED"}}>
+        <Router>
           <div>
-            <Routes>
-              <Route
-                path="/"
-                element={user ? <Navigate to="/dashboard" /> : <Login />}
-              />
-              <Route
-                path="/login"
-                element={user ? <Navigate to="/dashboard" /> : <Login />}
-              />
-              <Route path="/register" element={<Register />} />
-              <Route
-                path="/dashboard"
-                element={
-                  user ? (
-                    <Dashboard
+            <ToastContainer />
+            <div>
+              <Routes>
+                <Route
+                  path="/"
+                  element={user ? <Navigate to="/dashboard" /> : <Login />}
+                />
+                <Route
+                  path="/login"
+                  element={user ? <Navigate to="/dashboard" /> : <Login />}
+                />
+                <Route path="/register" element={<Register />} />
+                
+                <Route
+                  path="/dashboard"
+                  element={
+                    user ? (
+                      <Dashboard
+                        fetchUserData={fetchUserData}
+                        userDetails={userDetails}
+                        uid={uid}
+                      />
+                    ) : (
+                      <Navigate to="/login" />
+                    )
+                  }
+                />
+                <Route
+                  path="/about"
+                  element={
+                    user ? (
+                      <About
+                        fetchUserData={fetchUserData}
+                        userDetails={userDetails}
+                        uid={uid}
+                      />
+                    ) : (
+                      <Navigate to="/login" />
+                    )
+                  }
+                />
+                <Route
+                  path="/contact"
+                  element={
+                    <Contact
+                      uid={uid}
                       fetchUserData={fetchUserData}
                       userDetails={userDetails}
-                      uid={uid}
                     />
-                  ) : (
-                    <Navigate to="/login" />
-                  )
-                }
-              />
-              <Route
-                path="/about"
-                element={
-                  user ? (
-                    <About
+                  }
+                />
+                <Route
+                  path="/donate"
+                  element={
+                    <Donate
+                      uid={uid}
                       fetchUserData={fetchUserData}
                       userDetails={userDetails}
-                      uid={uid}
                     />
-                  ) : (
-                    <Navigate to="/login" />
-                  )
-                }
-              />
-              <Route
-                path="/contact"
-                element={
-                  <Contact
-                    uid={uid}
-                    fetchUserData={fetchUserData}
-                    userDetails={userDetails}
-                  />
-                }
-              />
-              <Route
-                path="/donate"
-                element={
-                  <Donate
-                    uid={uid}
-                    fetchUserData={fetchUserData}
-                    userDetails={userDetails}
-                  />
-                }
-              />
-              <Route
-                path="/profile"
-                element={
-                  <Profile
-                    uid={uid}
-                    fetchUserData={fetchUserData}
-                    userDetails={userDetails}
-                  />
-                }
-              />
-              <Route
-                path="/donate"
-                element={
-                  <Donate
-                    uid={uid}
-                    fetchUserData={fetchUserData}
-                    userDetails={userDetails}
-                  />
-                }
-              />
-              <Route path="/success" element={<Success />} />
-              <Route path="/cancelled" element={<Cancelled />} />
-            </Routes>
+                  }
+                />
+                <Route
+                  path="/profile"
+                  element={
+                    <Profile
+                      uid={uid}
+                      fetchUserData={fetchUserData}
+                      userDetails={userDetails}
+                    />
+                  }
+                />
+                <Route
+                  path="/donate"
+                  element={
+                    <Donate
+                      uid={uid}
+                      fetchUserData={fetchUserData}
+                      userDetails={userDetails}
+                    />
+                  }
+                />
+                <Route path="/success" element={<Success />} />
+                <Route path="/cancelled" element={<Cancelled />} />
+              </Routes>
+            </div>
           </div>
-        </div>
-      </Router>
+        </Router>
+      </div>
     </>
   );
 }

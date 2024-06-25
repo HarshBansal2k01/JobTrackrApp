@@ -38,7 +38,7 @@ function Navbar({ userDetails, handleLogout }) {
   };
 
   return (
-    <AppBar position="static">
+    <AppBar position="static" sx={{ background: '#27374D' }}>
       <Container maxWidth="xl">
         <Toolbar disableGutters>
           <AdbIcon sx={{ display: { xs: "none", md: "flex" }, mr: 1 }} />
@@ -96,7 +96,7 @@ function Navbar({ userDetails, handleLogout }) {
             >
               {pages.map((page) => (
                 <MenuItem key={page} onClick={handleCloseNavMenu}>
-                  <Link to={`/${page.toLowerCase()}`}>
+                  <Link to={`/${page.toLowerCase()}`} style={{ textDecoration: "none", color: "inherit" }}>
                     <Typography variant="body1" textAlign="center">
                       {page}
                     </Typography>
@@ -109,7 +109,7 @@ function Navbar({ userDetails, handleLogout }) {
 
           <Box sx={{ flexGrow: 1, display: { xs: "none", md: "flex" } }}>
             {pages.map((page) => (
-              <Link key={page} to={`/${page.toLowerCase()}`}>
+              <Link key={page} to={`/${page.toLowerCase()}`} style={{ textDecoration: "none", color: "inherit" }}>
                 <Button
                   onClick={handleCloseNavMenu}
                   sx={{ my: 2, color: "white", display: "block" }}
@@ -156,7 +156,7 @@ function Navbar({ userDetails, handleLogout }) {
                     setting === "Logout" ? handleLogout : handleCloseUserMenu
                   }
                 >
-                  <Link key={setting} to={`/${setting.toLowerCase()}`}>
+                  <Link key={setting} to={`/${setting.toLowerCase()}`} style={{ textDecoration: "none", color: "inherit" }}>
                     <Typography
                       sx={{ color: "black", display: "block" }}
                       textAlign="center"
