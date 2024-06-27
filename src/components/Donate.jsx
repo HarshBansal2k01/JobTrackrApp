@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Navbar from "./Navbar";
 import Footer from "./Footer";
 import Paper from "@mui/material/Paper";
@@ -75,6 +75,9 @@ function Donate({ fetchUserData, userDetails, uid }) {
       console.log("error logging out", error);
     }
   };
+  useEffect(() => {
+    fetchUserData();
+  }, []);
   return (
     <>
       <div

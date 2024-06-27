@@ -3,7 +3,7 @@ import "./App.css";
 import React, { useEffect, useState } from "react";
 import Button from "@mui/material/Button";
 import Dashboard from "./components/Dashboard";
-import { ToastContainer } from "react-toastify";
+import { ToastContainer, toast } from "react-toastify";
 import "bootstrap/dist/css/bootstrap.min.css";
 
 import {
@@ -40,7 +40,7 @@ function App() {
   }, []);
 
   useEffect(() => {
-    // console.log("data",userDetails)
+    console.log("data", userDetails);
   }, [userDetails]);
 
   if (loading) {
@@ -93,7 +93,7 @@ function App() {
 
   return (
     <>
-      <div className="App" style={{background:"#DDE6ED"}}>
+      <div className="App" style={{ background: "#DDE6ED" }}>
         <Router>
           <div>
             <ToastContainer />
@@ -108,7 +108,7 @@ function App() {
                   element={user ? <Navigate to="/dashboard" /> : <Login />}
                 />
                 <Route path="/register" element={<Register />} />
-                
+
                 <Route
                   path="/dashboard"
                   element={
@@ -140,43 +140,46 @@ function App() {
                 <Route
                   path="/contact"
                   element={
-                    <Contact
-                      uid={uid}
-                      fetchUserData={fetchUserData}
-                      userDetails={userDetails}
-                    />
+                    user ? (
+                      <Contact
+                        uid={uid}
+                        fetchUserData={fetchUserData}
+                        userDetails={userDetails}
+                      />
+                    ) : (
+                      <Navigate to="/login" />
+                    )
                   }
                 />
                 <Route
                   path="/donate"
                   element={
-                    <Donate
-                      uid={uid}
-                      fetchUserData={fetchUserData}
-                      userDetails={userDetails}
-                    />
+                    user ? (
+                      <Donate
+                        uid={uid}
+                        fetchUserData={fetchUserData}
+                        userDetails={userDetails}
+                      />
+                    ) : (
+                      <Navigate to="/login" />
+                    )
                   }
                 />
                 <Route
                   path="/profile"
                   element={
-                    <Profile
-                      uid={uid}
-                      fetchUserData={fetchUserData}
-                      userDetails={userDetails}
-                    />
+                    user ? (
+                      <Profile
+                        uid={uid}
+                        fetchUserData={fetchUserData}
+                        userDetails={userDetails}
+                      />
+                    ) : (
+                      <Navigate to="/login" />
+                    )
                   }
                 />
-                <Route
-                  path="/donate"
-                  element={
-                    <Donate
-                      uid={uid}
-                      fetchUserData={fetchUserData}
-                      userDetails={userDetails}
-                    />
-                  }
-                />
+
                 <Route path="/success" element={<Success />} />
                 <Route path="/cancelled" element={<Cancelled />} />
               </Routes>

@@ -270,7 +270,12 @@ function Applied({ user_id, jobs, updateJobStatus, fetchAllJobs }) {
             <Button
               variant="contained"
               onClick={() => setIsOpen(true)}
-              style={{ background: "#27374D" }}
+              sx={{
+                background: "#27374D",
+                "&:hover": {
+                  background: "#526D82",
+                },
+              }}
             >
               {" "}
               Add Job{" "}

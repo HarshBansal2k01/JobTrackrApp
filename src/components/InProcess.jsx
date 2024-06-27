@@ -7,6 +7,7 @@ import {
   InputLabel,
   OutlinedInput,
   TextField,
+  Tooltip,
 } from "@mui/material";
 import MenuItem from "@mui/material/MenuItem";
 import InputAdornment from "@mui/material/InputAdornment";
@@ -54,7 +55,6 @@ function InProcess({ jobs, updateJobStatus, uid, fetchAllJobs }) {
 
     if (jobs.length > 0) {
       fetchProcesses();
-      
     }
   }, [jobs]);
 
@@ -74,11 +74,7 @@ function InProcess({ jobs, updateJobStatus, uid, fetchAllJobs }) {
       );
       fetchAllJobs(uid);
       toast.success("Process added successfully!");
-
-      setProcesses((prev) => ({
-        ...prev,
-        [jobId]: [...(prev[jobId] || []), response.data.process],
-      }));
+      console.log("added successfully", response.status);
     } catch (error) {
       console.error("Error adding process:", error.message);
       toast.error("Error in Adding process", error.message);
@@ -202,8 +198,9 @@ function InProcess({ jobs, updateJobStatus, uid, fetchAllJobs }) {
                   <div style={{ flex: 1, minWidth: "150px" }}>
                     <Box display="flex" alignItems="center">
                       <FormControl fullWidth variant="outlined">
-                        <InputLabel id="add-note-label">Rounds</InputLabel>
-                        <Select labelId="Rounds" label="Rounds">
+                        <InputLabel id="View Rounds">View Rounds</InputLabel>
+
+                        <Select labelId="Rounds" label="View Rounds">
                           {processes[jobData._id] &&
                           processes[jobData._id].length > 0 ? (
                             processes[jobData._id].map((option, index) => (
@@ -223,6 +220,12 @@ function InProcess({ jobs, updateJobStatus, uid, fetchAllJobs }) {
                           setIsOpen(true);
                         }}
                         style={{ marginLeft: "10px" }}
+                        sx={{
+                          background: "#27374D",
+                          "&:hover": {
+                            background: "#526D82",
+                          },
+                        }}
                       >
                         Add
                       </Button>
@@ -261,6 +264,7 @@ function InProcess({ jobs, updateJobStatus, uid, fetchAllJobs }) {
                             position: "absolute",
                             right: "10px",
                             bottom: "10px",
+                            background: "#27374D",
                           }}
                           variant="contained"
                           type="submit"

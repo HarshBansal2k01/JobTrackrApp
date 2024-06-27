@@ -1,11 +1,11 @@
 import React, { useState, useEffect } from "react";
 import { Card, CardContent, Typography, Box, Button } from "@mui/material";
 import CheckCircleIcon from "@mui/icons-material/CheckCircle";
-import { useNavigate } from "react-router-dom"; 
+import { useNavigate } from "react-router-dom";
 
 function Success() {
   const navigate = useNavigate();
-  const [seconds, setSeconds] = useState(5); 
+  const [seconds, setSeconds] = useState(5);
   const [timerActive, setTimerActive] = useState(true);
 
   useEffect(() => {
@@ -22,13 +22,13 @@ function Success() {
 
   const handleRedirect = () => {
     if (timerActive) {
-      navigate("/dashboard"); 
+      navigate("/dashboard");
     }
   };
 
   const handleManualNavigation = () => {
     setTimerActive(false);
-    handleRedirect(); 
+    handleRedirect();
   };
 
   return (
@@ -37,7 +37,7 @@ function Success() {
         display: "flex",
         justifyContent: "center",
         alignItems: "center",
-        height: "100vh", // Adjust as needed to center vertically
+        height: "100vh",
       }}
     >
       <Card sx={{ width: "80%", maxWidth: 600 }}>
@@ -58,6 +58,12 @@ function Success() {
               variant="contained"
               color="primary"
               onClick={handleManualNavigation}
+              sx={{
+                background: "#27374D",
+                "&:hover": {
+                  background: "#526D82",
+                },
+              }}
             >
               Navigate Now
             </Button>

@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import Card from "@mui/material/Card";
 import CardContent from "@mui/material/CardContent";
 import CardMedia from "@mui/material/CardMedia";
@@ -25,8 +25,7 @@ const ProfileImage = styled(CardMedia)({
   objectFit: "cover",
 });
 function Profile({ fetchUserData, userDetails, uid }) {
-
-  const navigate = useNavigate()
+  const navigate = useNavigate();
 
   const handleLogout = async () => {
     try {
@@ -39,6 +38,10 @@ function Profile({ fetchUserData, userDetails, uid }) {
       console.log("error logging out", error);
     }
   };
+
+  useEffect(() => {
+    fetchUserData();
+  }, []);
   return (
     <>
       <div
@@ -47,42 +50,41 @@ function Profile({ fetchUserData, userDetails, uid }) {
         <Navbar userDetails={userDetails} handleLogout={handleLogout} />
 
         <CenteredCard>
-         
-            <div style={{textAlign:"center"}}>
-              {userDetails.photo ? (
-                <CardMedia
-                  component="img"
-                  height="140"
-                  src={userDetails.photo}
-                  alt="Profile image"
-                  style={{
-                    marginTop:"10px",
-                    width: "140px",
-                    height: "140px",
-                    borderRadius: "50%",
-                    display:'inline-block',
-                    objectFit: "cover",
-                  }}
-                />
-              ) : (
-                <AccountCircleIcon
-                  sx={{ width: 140, height: 140, borderRadius: "50%" }}
-                />
-              )}
-            </div>
+          <div style={{ textAlign: "center" }}>
+            {userDetails && userDetails.photo ? (
+              <CardMedia
+                component="img"
+                height="140"
+                src={userDetails.photo}
+                alt="Profile image"
+                style={{
+                  marginTop: "10px",
+                  width: "140px",
+                  height: "140px",
+                  borderRadius: "50%",
+                  display: "inline-block",
+                  objectFit: "cover",
+                }}
+              />
+            ) : (
+              <AccountCircleIcon
+                sx={{ width: 140, height: 140, borderRadius: "50%" }}
+              />
+            )}
+          </div>
 
-            <CardContent>
-              <Typography gutterBottom variant="h5" component="div">
-                {userDetails.lastName
-                  ? userDetails.firstName + " " + userDetails.lastName
-                  : userDetails.firstName}
-              </Typography>
-              <Typography variant="body2" color="text.secondary">
-                <strong> Email Address: </strong>
-                {userDetails.email}
-              </Typography>
-            </CardContent>
-         
+          <CardContent>
+            <Typography gutterBottom variant="h5" component="div">
+              {userDetails &&
+                (userDetails.lastName
+                  ? `${userDetails.firstName} ${userDetails.lastName}`
+                  : userDetails.firstName)}
+            </Typography>
+            <Typography variant="body2" color="text.secondary">
+              <strong> Email Address: </strong>
+              {userDetails && userDetails.email}
+            </Typography>
+          </CardContent>
         </CenteredCard>
         <Footer />
       </div>

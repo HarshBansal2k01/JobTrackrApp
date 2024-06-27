@@ -21,12 +21,12 @@ function Cancelled() {
   }, [timerActive, seconds]);
 
   const handleRedirect = () => {
-    navigate("/dashboard"); 
+    navigate("/dashboard");
   };
 
   const handleManualNavigation = () => {
-    setTimerActive(false); 
-    handleRedirect(); 
+    setTimerActive(false);
+    handleRedirect();
   };
 
   return (
@@ -35,7 +35,7 @@ function Cancelled() {
         display: "flex",
         justifyContent: "center",
         alignItems: "center",
-        height: "100vh", 
+        height: "100vh",
       }}
     >
       <Card sx={{ width: "80%", maxWidth: 600 }}>
@@ -56,6 +56,12 @@ function Cancelled() {
               variant="contained"
               color="primary"
               onClick={handleManualNavigation}
+              sx={{
+                background: "#27374D",
+                "&:hover": {
+                  background: "#526D82",
+                },
+              }}
             >
               Navigate Now
             </Button>

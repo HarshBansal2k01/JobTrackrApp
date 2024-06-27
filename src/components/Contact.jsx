@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import Navbar from "./Navbar";
 import Footer from "./Footer";
 import Paper from "@mui/material/Paper";
@@ -29,6 +29,9 @@ function Contact({ fetchUserData, userDetails, uid }) {
       console.log("error logging out", error);
     }
   };
+  useEffect(()=>{
+    fetchUserData()
+  },[])
   return (
     <>
       <div

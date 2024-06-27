@@ -30,7 +30,6 @@ function Navbar({ userDetails, handleLogout }) {
 
   const handleCloseNavMenu = () => {
     setAnchorElNav(null);
-    console.log("clcike");
   };
 
   const handleCloseUserMenu = () => {
@@ -126,7 +125,7 @@ function Navbar({ userDetails, handleLogout }) {
                 <Avatar
                   alt="Remy Sharp"
                   src={
-                    userDetails.photo
+                    userDetails && userDetails.photo
                       ? userDetails.photo
                       : "/static/images/avatar/2.jpg"
                   }
