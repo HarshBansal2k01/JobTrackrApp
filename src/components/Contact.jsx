@@ -23,10 +23,8 @@ function Contact({ fetchUserData, userDetails, uid }) {
       await auth.signOut();
       navigate("/login");
       toast.success("logged out");
-      console.log("logged out");
     } catch (error) {
-      toast.error("error logging out", error.message);
-      console.log("error logging out", error);
+      toast.error("error logging out" + error.message);
     }
   };
   useEffect(()=>{

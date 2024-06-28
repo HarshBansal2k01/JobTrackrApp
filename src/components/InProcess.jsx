@@ -41,13 +41,12 @@ function InProcess({ jobs, updateJobStatus, uid, fetchAllJobs }) {
           const processList = response.data
             .map((job) => job.process)
             .join(",")
-            .split(",");
+            .split(",")
+            .filter((process) => process.trim() !== "");
+
           processesData[job._id] = processList;
         } catch (error) {
-          console.error(
-            `Error fetching processes for job ID ${job._id}:`,
-            error
-          );
+          toast.error("Error fetching processes for job ID " + error.message);
         }
       }
       setProcesses(processesData);
@@ -74,10 +73,8 @@ function InProcess({ jobs, updateJobStatus, uid, fetchAllJobs }) {
       );
       fetchAllJobs(uid);
       toast.success("Process added successfully!");
-      console.log("added successfully", response.status);
     } catch (error) {
-      console.error("Error adding process:", error.message);
-      toast.error("Error in Adding process", error.message);
+      toast.error("Error in Adding process"+ error.message);
     }
     setProcess("");
     setIsOpen(false);

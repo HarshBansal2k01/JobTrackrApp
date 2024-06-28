@@ -65,12 +65,9 @@ function Applied({ user_id, jobs, updateJobStatus, fetchAllJobs }) {
 
   const handleSelectStatus = (e) => {
     setSelectStatus(e.target.value);
-    console.log(e.target.value);
   };
 
   const handleStatusChange = (id, event) => {
-    console.log(event);
-
     updateJobStatus(id, event);
   };
 
@@ -105,12 +102,10 @@ function Applied({ user_id, jobs, updateJobStatus, fetchAllJobs }) {
       axios
         .post("http://localhost:8080/AddJob", formData)
         .then((res) => {
-          console.log("Job added successfully", res);
           toast.success("Job added successfully");
           fetchAllJobs(user_id);
         })
         .catch((err) => {
-          console.error("Error adding job", err);
           toast.error(`Error adding job ${err.message}`);
         });
       setIsOpen(false);

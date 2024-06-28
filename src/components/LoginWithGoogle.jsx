@@ -10,7 +10,6 @@ function LoginWithGoogle() {
   const googleLogin = () => {
     const provider = new GoogleAuthProvider();
     signInWithPopup(auth, provider).then(async (res) => {
-      console.log(res);
       const user = res.user;
       if (res.user) {
         await setDoc(doc(db, "Users", user.uid), {

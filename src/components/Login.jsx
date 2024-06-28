@@ -46,10 +46,8 @@ function Login() {
       await signInWithEmailAndPassword(auth, email, password);
       navigate("/dashboard");
       toast.success("User logged in")
-      console.log("logged in");
     } catch (error) {
       toast.error("Login Error "+ error)
-      console.log(error);
     }
   };
 

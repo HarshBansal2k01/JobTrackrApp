@@ -50,7 +50,6 @@ function Register() {
     try {
       await createUserWithEmailAndPassword(auth, email, password);
       const user = auth.currentUser;
-      console.log(user);
       if (user) {
         await setDoc(doc(db, "Users", user.uid), {
           email: user.email,
@@ -61,11 +60,9 @@ function Register() {
       }
       navigate("/dashboard");
       toast.success("User registered successfully");
-      console.log("user registered successfully");
     } catch (error) {
       toast.error("Error registering user: " + error.message);
 
-      console.log(error.message);
     }
   };
 

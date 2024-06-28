@@ -17,23 +17,19 @@ import { toast } from "react-toastify";
 import LibraryAddCheckIcon from "@mui/icons-material/LibraryAddCheck";
 function Completed({ jobs, updateJobStatus, fetchAllJobs, uid }) {
   const handleStatusChange = (id, event) => {
-    console.log(event);
 
     updateJobStatus(id, event);
   };
 
   const deleteJob = async (id) => {
-    console.log("Deleting job with ID:", id);
 
     axios
       .delete(`http://localhost:8080/deletejob/${id}`)
       .then((response) => {
-        console.log(response.data); // Log response if needed
         fetchAllJobs(uid);
         toast.success("Job Deleted Successfully");
       })
       .catch((error) => {
-        console.error("Error Deleting the job:", error.message);
         toast.error(`Error Deleting the job ${error.message}`);
       });
   };

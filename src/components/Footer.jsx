@@ -20,8 +20,7 @@ function Footer() {
         toast.success("Email Copied!!");
       },
       (err) => {
-        toast.error("Failed to copy");
-        console.error("Failed to copy: ", err);
+        toast.error("Failed to copy" + err.message);
       }
     );
   };

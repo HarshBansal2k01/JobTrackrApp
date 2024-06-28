@@ -28,15 +28,13 @@ function Dashboard({fetchUserData , userDetails,uid }) {
         setCompletedJobs(jobs.filter((job) => job.status === "Completed"));
       })
       .catch((error) => {
-        console.log("Error fetching jobs", error);
-        toast.error("Error fetching jobs", error.message);
+        toast.error("Error fetching jobs" + error.message);
       });
   };
   
 
   useEffect(() => {
     fetchUserData();
-    console.log("uid", uid)
     fetchAllJobs(uid);
   }, [uid]);
 
@@ -48,7 +46,6 @@ function Dashboard({fetchUserData , userDetails,uid }) {
         fetchAllJobs(uid); 
       })
       .catch((err) => {
-        console.error("Error updating status", err);
         toast.error(`Error Updating Status ${err.message}`);
       });
   };
@@ -58,10 +55,8 @@ function Dashboard({fetchUserData , userDetails,uid }) {
       await auth.signOut();
       navigate("/login");
       toast.success("logged out");
-      console.log("logged out");
     } catch (error) {
-      toast.error("error logging out", error.message);
-      console.log("error logging out", error);
+      toast.error("error logging out" + error.message);
     }
   };
 

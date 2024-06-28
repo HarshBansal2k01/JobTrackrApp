@@ -33,15 +33,12 @@ function App() {
     const unsubscribe = auth.onAuthStateChanged((user) => {
       setUser(user);
       setLoading(false);
-      console.log("User status:", user);
     });
 
     return () => unsubscribe();
   }, []);
 
-  useEffect(() => {
-    console.log("data", userDetails);
-  }, [userDetails]);
+  useEffect(() => {}, [userDetails]);
 
   if (loading) {
     return (
@@ -75,17 +72,15 @@ function App() {
           const docSnap = await getDoc(docRef);
           if (docSnap.exists()) {
             setUserDetails(docSnap.data());
-            // console.log(docSnap.data());
             setUid(user.uid);
           } else {
-            console.log("No user data found!");
+            toast.error("No user data found!");
           }
         } catch (error) {
-          console.error("Error fetching user data:", error);
+          toast.error("Error fetching user data: " + error.message);
         }
       } else {
-        console.log("User not logged in");
-        // navigate("/login");
+        toast.error("User not logged in");
         window.location.href("/login");
       }
     });
