@@ -5,6 +5,7 @@ import Paper from "@mui/material/Paper";
 import { Box, IconButton, Typography } from "@mui/material";
 import { Instagram, LinkedIn, Twitter } from "@mui/icons-material";
 import EmailIcon from "@mui/icons-material/Email";
+import GitHubIcon from '@mui/icons-material/GitHub';
 import { useNavigate } from "react-router-dom";
 import { auth } from "./firebase";
 import { toast } from "react-toastify";
@@ -89,6 +90,13 @@ function Contact({ fetchUserData, userDetails, uid }) {
                 >
                   <EmailIcon fontSize="large" />
                 </IconButton>
+                <IconButton
+              href="https://github.com/HarshBansal2k01"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              <GitHubIcon fontSize="large" />
+            </IconButton>
                 <br /><br />
                 <Typography variant="body1">
                 Please contact us from the above handles

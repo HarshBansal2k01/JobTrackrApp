@@ -10,7 +10,7 @@ import {
 } from "@mui/material";
 import { Instagram, LinkedIn, Twitter } from "@mui/icons-material";
 import { toast } from "react-toastify";
-
+import GitHubIcon from '@mui/icons-material/GitHub';
 function Footer() {
   const email = "bansalharsh0914@gmail.com";
 
@@ -106,6 +106,13 @@ function Footer() {
             >
               <Twitter fontSize="large" />
             </IconButton>
+            <IconButton
+              href="https://github.com/HarshBansal2k01"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              <GitHubIcon fontSize="large" />
+            </IconButton>
           </Grid>
         </Grid>
         {/* Copyright */}
@@ -116,7 +123,7 @@ function Footer() {
           mt={2}
         >
           {"© "}
-          <Link color="inherit" href="https://jobtrackr.com/">
+          <Link color="inherit" href="https://job-trackr-3a457.web.app/dashboard">
             JobTrackr
           </Link>{" "}
           {new Date().getFullYear()}
