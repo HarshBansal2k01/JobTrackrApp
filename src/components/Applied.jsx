@@ -100,7 +100,7 @@ function Applied({ user_id, jobs, updateJobStatus, fetchAllJobs }) {
     } else if (isFormValid) {
       setFormValues(formData);
       axios
-        .post("http://localhost:8080/AddJob", formData)
+        .post("https://jobtrackrapp.onrender.com/AddJob", formData)
         .then((res) => {
           toast.success("Job added successfully");
           fetchAllJobs(user_id);

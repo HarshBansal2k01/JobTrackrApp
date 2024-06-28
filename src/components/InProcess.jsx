@@ -34,7 +34,7 @@ function InProcess({ jobs, updateJobStatus, uid, fetchAllJobs }) {
       const processesData = {};
       for (const job of jobs) {
         try {
-          const response = await axios.get(`http://localhost:8080/getprocess`, {
+          const response = await axios.get(`https://jobtrackrapp.onrender.com/getprocess`, {
             params: { jobId: job._id },
           });
 
@@ -64,7 +64,7 @@ function InProcess({ jobs, updateJobStatus, uid, fetchAllJobs }) {
   const handleAddProcess = async (jobId) => {
     try {
       const response = await axios.post(
-        `http://localhost:8080/addprocess/${jobId}`,
+        `https://jobtrackrapp.onrender.com/addprocess/${jobId}`,
         {
           uid,
           jobId,

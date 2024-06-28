@@ -24,7 +24,7 @@ function Completed({ jobs, updateJobStatus, fetchAllJobs, uid }) {
   const deleteJob = async (id) => {
 
     axios
-      .delete(`http://localhost:8080/deletejob/${id}`)
+      .delete(`https://jobtrackrapp.onrender.com/deletejob/${id}`)
       .then((response) => {
         fetchAllJobs(uid);
         toast.success("Job Deleted Successfully");

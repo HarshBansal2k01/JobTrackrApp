@@ -20,7 +20,7 @@ function Dashboard({fetchUserData , userDetails,uid }) {
 
 
   const fetchAllJobs = (uid) => {
-    axios.get(`http://localhost:8080/getjobs?uid=${uid}`)
+    axios.get(`https://jobtrackrapp.onrender.com/getjobs?uid=${uid}`)
       .then((response) => {
         const jobs = response.data;
         setAppliedJobs(jobs.filter((job) => job.status === "Applied"));
@@ -40,7 +40,7 @@ function Dashboard({fetchUserData , userDetails,uid }) {
 
   const updateJobStatus = (id, newStatus) => {
     axios
-      .put(`http://localhost:8080/updatejob/${id}`, { status: newStatus })
+      .put(`https://jobtrackrapp.onrender.com/updatejob/${id}`, { status: newStatus })
       .then(() => {
         toast.success(`Status Updated Successfully to ${newStatus}`);
         fetchAllJobs(uid); 

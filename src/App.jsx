@@ -80,7 +80,6 @@ function App() {
           toast.error("Error fetching user data: " + error.message);
         }
       } else {
-        toast.error("User not logged in");
         window.location.href("/login");
       }
     });

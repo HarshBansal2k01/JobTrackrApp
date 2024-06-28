@@ -39,7 +39,7 @@ function Donate({ fetchUserData, userDetails, uid }) {
 
   const checkout = async () => {
     try {
-      const res = await fetch("http://localhost:8080/checkout", {
+      const res = await fetch("https://jobtrackrapp.onrender.com/checkout", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
