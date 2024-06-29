@@ -10,7 +10,7 @@
 2. **In Process** 🔄: Jobs you are currently being considered for, with an option to add the specific process stage you are in.
 3. **Completed** ✅: Jobs for which the application process is finished.
 
-This helps job seekers to not lose track of their applications.
+This helps job seekers not to lose track of their applications.
 
 ## Development Timeline 🗓️
 
