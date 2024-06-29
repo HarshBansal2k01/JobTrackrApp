@@ -1,9 +1,95 @@
-# React + Vite
+---
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+# JobTracker 🚀
 
-Currently, two official plugins are available:
+![JobTracker Logo](https://your-logo-url.com/logo.png)
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
-"# JobTrackrApp" 
+## Overview 🎯
+
+**JobTracker** helps you keep track of the jobs you have applied for and the stages of the application process. It is divided into three parts:
+
+1. **Applied** 📄: Jobs you have applied for.
+2. **In Process** 🔄: Jobs you are currently being considered for, with an option to add the specific process stage you are in.
+3. **Completed** ✅: Jobs for which the application process is finished.
+
+This helps job seekers to not lose track of their applications.
+
+## Development Timeline 🗓️
+
+- **Project Duration**: 16 days
+- **Start Date**: June 4, 2024
+- **End Date**: June 28, 2024
+
+## Tech Stack 🛠️
+
+### Frontend
+
+- **React.js** ⚛️
+- **Material UI** 🎨
+- **mui icons** 🖼️
+- **Vite** ⚡
+- **React Router** 🧭
+- **react loader npm** 🔄
+- **react js popup npm** 📬
+- **react bootstrap** 💅
+- **Google Fonts** 🔤
+- **Axios** 📡
+
+### Backend
+
+- **Node.js** 🟢
+- **Express** 🚂
+- **cors** 🌐
+- **nodemon** 🐾
+- **Mongoose** 🗄️
+- **MongoDB** 🍃
+- **Firebase (auth)** 🔐
+
+### Hosting
+
+- **Frontend 1**: [Firebase](https://job-trackr-3a457.firebaseapp.com/) 🔥
+- **Frontend 2**: [Firebase](https://job-trackr-3a457.web.app/) 🚀
+- **Backend 1**: [Render](https://jobtrackrapp.onrender.com/) 🚀
+
+## Live Demo 🌐
+
+Check out the live project here:
+
+- [JobTracker on Firebase](https://job-trackr-3a457.firebaseapp.com/)
+- [JobTracker Alternative Link](https://job-trackr-3a457.web.app/)
+
+## How to Use 📚
+
+1. Clone the repository:
+   ```bash
+   git clone https://github.com/HarshBansal2k01/JobTrackrApp.git
+   ```
+
+2. Navigate to the project directory:
+   ```bash
+   cd JobTracker
+   ```
+
+3. Install the dependencies:
+   ```bash
+   npm install
+   ```
+
+4. Run the development server:
+   ```bash
+   npm run dev
+   ```
+
+
+
+## Contact 📧
+
+Feel free to reach out if you have any questions or suggestions!
+
+- **Email**: bansalharsh0914@gmail.com
+- **LinkedIn**: https://www.linkedin.com/in/harsh-bansal-7441331b6/
+- **GitHub**: https://github.com/HarshBansal2k01
+
+---
+
+Made with ❤️ by [Harsh Bansal](https://github.com/HarshBansal2k01)
