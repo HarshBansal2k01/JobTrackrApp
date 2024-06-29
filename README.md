@@ -1,8 +1,6 @@
----
 
+```markdown
 # JobTracker 🚀
-
-![JobTracker Logo](https://your-logo-url.com/logo.png)
 
 ## Overview 🎯
 
@@ -49,7 +47,7 @@ This helps job seekers to not lose track of their applications.
 
 - **Frontend 1**: [Firebase](https://job-trackr-3a457.firebaseapp.com/) 🔥
 - **Frontend 2**: [Firebase](https://job-trackr-3a457.web.app/) 🚀
-- **Backend 1**: [Render](https://jobtrackrapp.onrender.com/) 🚀
+- **Backend **: [Render](https://jobtrackrapp.onrender.com/) 🚀
 
 ## Live Demo 🌐
 
@@ -80,8 +78,6 @@ Check out the live project here:
    npm run dev
    ```
 
-
-
 ## Contact 📧
 
 Feel free to reach out if you have any questions or suggestions!
@@ -93,3 +89,5 @@ Feel free to reach out if you have any questions or suggestions!
 ---
 
 Made with ❤️ by [Harsh Bansal](https://github.com/HarshBansal2k01)
+```
+
