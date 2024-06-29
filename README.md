@@ -56,6 +56,10 @@ Check out the live project here:
 - [JobTracker on Firebase](https://job-trackr-3a457.firebaseapp.com/)
 - [JobTracker Alternative Link](https://job-trackr-3a457.web.app/)
 
+## Goto Backend Repo 🎯
+
+- [Backend](https://github.com/HarshBansal2k01/JobTrackrAppBE)
+
 ## How to Use 📚
 
 1. Clone the repository:
