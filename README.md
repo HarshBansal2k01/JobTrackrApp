@@ -87,8 +87,8 @@ Check out the live project here:
 Feel free to reach out if you have any questions or suggestions!
 
 - **Email**: bansalharsh0914@gmail.com
-- **LinkedIn**: https://www.linkedin.com/in/harsh-bansal-7441331b6/
-- **GitHub**: https://github.com/HarshBansal2k01
+- **LinkedIn**: [Harsh Bansal](https://www.linkedin.com/in/harsh-bansal-7441331b6/)
+- **GitHub**: [HarshBansal2k01](https://github.com/HarshBansal2k01)
 
 ---
 
