@@ -167,7 +167,7 @@ function App() {
                         uid={uid}
                         fetchUserData={fetchUserData}
                         userDetails={userDetails}
-                      />
+                      />  
                     ) : (
                       <Navigate to="/login" />
                     )
