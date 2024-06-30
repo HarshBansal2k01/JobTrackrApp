@@ -1,5 +1,5 @@
 
-```markdown
+
 # JobTracker 🚀
 
 ## Overview 🎯
@@ -45,9 +45,10 @@ This helps job seekers not to lose track of their applications.
 
 ### Hosting
 
-- **Frontend 1**: [Firebase](https://job-trackr-3a457.firebaseapp.com/) 🔥
-- **Frontend 2**: [Firebase](https://job-trackr-3a457.web.app/) 🚀
-- **Backend **: [Render](https://jobtrackrapp.onrender.com/) 🚀
+- **Frontend Netlify **: [Jobtrackr site](https://jobtrackrapp.netlify.app/) 🔥
+- **Backend Render **: [Jobtrackr Backend site](https://jobtrackrapp.onrender.com/) 🚀
+
+
 
 ## Live Demo 🌐
 
