@@ -43,19 +43,12 @@ This helps job seekers not to lose track of their applications.
 - **MongoDB** 🍃
 - **Firebase (auth)** 🔐
 
-### Hosting
-
-- **Frontend Netlify **: [Jobtrackr site](https://jobtrackrapp.netlify.app/) 🔥
-- **Backend Render **: [Jobtrackr Backend site](https://jobtrackrapp.onrender.com/) 🚀
-
-
-
-## Live Demo 🌐
+### Hosting - Live Demo 🌐
 
 Check out the live project here:
 
-- [JobTracker on Firebase](https://job-trackr-3a457.firebaseapp.com/)
-- [JobTracker Alternative Link](https://job-trackr-3a457.web.app/)
+- **Frontend Netlify**: [Jobtrackr site](https://jobtrackrapp.netlify.app/) 🔥
+- **Backend Render**: [Jobtrackr Backend site](https://jobtrackrapp.onrender.com/) 🚀
 
 ## Goto Backend Repo 🎯
 
