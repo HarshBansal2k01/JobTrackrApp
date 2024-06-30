@@ -174,8 +174,14 @@ function App() {
                   }
                 />
 
-                <Route path="/success" element={<Success />} />
-                <Route path="/cancelled" element={<Cancelled />} />
+                <Route
+                  path="/success"
+                  element={user ? <Success /> : <Navigate to="/login" />}
+                />
+                <Route
+                  path="/cancelled"
+                  element={user ? <Cancelled /> : <Navigate to="/login" />}
+                />
               </Routes>
             </div>
           </div>
